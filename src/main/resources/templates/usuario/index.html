@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Kessinger - Home</title>
+    <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+<body>
+
+<div id="app">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+
+                <!-- Collapsed Hamburger -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!-- Branding Image -->
+            </div>
+
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="nav navbar-nav">
+                    &nbsp;
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                    <li><a href="/perfil">Perfil</a></li>
+                    <li><a href="/publicacoes">Publicações</a></li>
+                    <li><a href="/periodicos">Periódicos</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <img style="width:32px;height:32px;" th:src="@{/img/nouser.jpg}"/>
+                            <span sec:authentication="name"></span> <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">
+                                    Registrar uma publicação
+                                </a>
+
+                                <a href="#">
+                                    Registrar um periódico
+                                </a>
+                                <div hidden="hidden">
+                                    <form id="logout" action="#" th:action="@{/logout}" method="post">
+                                        <div class="form-action">
+                                            <button type="submit">Sair</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <a href="javascript:document.getElementById('logout').submit()" class="nav-link"> Sair</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <div class="row">
+        <form action="/publicacoes" method="GET">
+            <div class="col-md-12 text-center">
+                <div class="text-center bg-info transparent">
+                    <img class="animated infinite pulse" th:src="@{/img/prototipo4.png}" height="133" width="580"/>
+                </div>
+                <div class="input-group input-group-lg">
+                    <input name="pesquisar" type="text" class="form-control" placeholder="Digite o que você procura aqui.." aria-describedby="sizing-addon1"/>
+                    <span class="input-group-btn">
+			      <input class="btn" type="submit" value="Pesquisar"/>
+			      </span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a style="margin-left:25%;width:100%;cursor:pointer;" href="#" onclick="javascript:alert('Funcionalidade em construção...');">Não encontrou o que procurava? Clique aqui e faça uma busca mais avançada...</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center" style="font-size: x-large;">Últimas publicações</p>
+            <div class="carousel" style="position:relative;">
+                <!-- <a class="carousel-item" href="#one!"><img src="{{ asset('img/science.jpg') }}"></a> -->
+                <a class="carousel-item" href="#two!"><img th:src="@{/img/F1.medium.gif}"/></a>
+                <a class="carousel-item" href="#three!"><img th:src="@{/img/f7c285722864e80e2f49aa7851ecc2b5dcb60683.jpg}"/></a>
+                <a class="carousel-item" href="#four!"><img th:src="@{/img/dmanisi-science-cover1.jpg}"/></a>
+                <!-- <a class="carousel-item" href="#five!"><img src="{{ asset('img/science_cover.jpg') }}"></a> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.carousel').carousel();
+    });
+</script>
+
+
+</body>
+</html>

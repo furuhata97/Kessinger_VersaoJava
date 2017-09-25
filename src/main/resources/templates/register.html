@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Kessinger - Novo Usuário</title>
+    <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 align-middle registro">
+            <div th:if="${erro}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span th:text="${erro}"></span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header text-center bg-info blue-grey darken-4">
+                    <h5 class="card-title white-text">Novo Usuário</h5>
+                    <img class="animated pulse" th:src="@{/img/prototipo2.png}" height="108" width="550"/>
+                </div>
+
+
+                <div class="row">
+                    <div class="col s12">
+                        <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                                <span class="card-title">Entre com os dados para criar a sua conta!</span>
+
+                            </div>
+                            <div class="card-action">
+
+
+                                <div class="row">
+                                    <form th:action="@{/register}" th:object="${usuario}" method="post" class="col s12">
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <i class="material-icons prefix">account_circle</i>
+                                                <input style="color: #9fa8da" id="nome" class="form-control validated" type="text" th:field="*{nome}" required="required"/>
+                                                <label for="nome">Nome<span class="obrigatorio">*</span></label>
+                                            </div>
+                                            <div class="input-field col s6">
+                                                <i class="material-icons prefix">account_circle</i>
+                                                <input style="color: #9fa8da" id="sobrenome" class="form-control validated" type="text" th:field="*{sobrenome}" required="required"/>
+                                                <label for="sobrenome">Sobrenome<span class="obrigatorio">*</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <i class="material-icons prefix">swap_calls</i>
+                                                <input style="color: #9fa8da" id="endereco" class="form-control" type="text" th:field="*{endereco}"/>
+                                                <label for="endereco">Endereço</label>
+                                            </div>
+                                            <div class="input-field col s4">
+                                                <i class="material-icons prefix">filter_1</i>
+                                                <input style="color: #9fa8da" id="numero" class="form-control" type="text" th:field="*{numero}"/>
+                                                <label for="numero">Número</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-12 col-lg-4 pad">
+                                                <label class="col-form-label">Sexo<span class="obrigatorio">*</span></label>
+                                                <select class="form-control" th:field="*{sexo}">
+                                                    <option th:each="sexo : ${T(com.kessinger.kessinger.model.enums.Sexo).values()}"
+                                                            th:value="${sexo}"
+                                                            th:text="${sexo.sexo}"></option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-12 col-lg-4">
+                                                <input type="hidden"/>
+                                            </div>
+
+                                            <div class="form-group col-12 col-lg-3">
+                                                <label for="nascimento">Data de nascimento<span class="obrigatorio">*</span></label>
+                                                <input style="color: #9fa8da" id="nascimento" type="text" class="form-control validated datepicker" th:field="*{nascimento}"
+                                                       required="required" th:classappend="${#fields.hasErrors('nascimento')} ? 'is-invalid'"/>
+                                                <div th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}"
+                                                     class="invalid-feedback"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">featured_play_list</i>
+                                                    <label for="cpf" class="col-form-label">CPF<span class="obrigatorio">*</span></label>
+                                                    <input style="color: #9fa8da" id="cpf" class="form-control" type="text"
+                                                           th:field="*{cpf}" th:readonly="${update} == true ? 'readonly' : false" required="required" th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid'"/>
+                                                    <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="invalid-feedback"></div>
+                                                    <span id="CPFerror" class="invalid-feedback" role="alert"></span>
+                                                </div>
+                                                <div class="form-group col-12 col-lg-4">
+                                                    <label class="col-form-label">País<span class="obrigatorio">*</span></label>
+                                                    <select class="form-control" th:field="*{pais}">
+                                                        <option th:each="sigla : ${T(com.kessinger.kessinger.model.enums.Paises).values()}"
+                                                                th:value="${sigla}"
+                                                                th:text="${sigla.pais}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">pin_drop</i>
+                                                    <label for="cidade" class="col-form-label">Cidade</label>
+                                                    <input style="color: #9fa8da" id="cidade" type="text" class="form-control"
+                                                           th:field="*{cidade}" th:classappend="${#fields.hasErrors('cidade')} ? 'is-invalid'"/>
+                                                    <div th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"
+                                                         class="invalid-feedback"></div>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">phone</i>
+                                                    <label for="telefone" class="col-form-label">Telefone</label>
+                                                    <input style="color: #9fa8da" id="telefone" type="text" class="form-control"
+                                                           th:field="*{telefone}" th:classappend="${#fields.hasErrors('telefone')} ? 'is-invalid'"/>
+                                                    <div th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"
+                                                         class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">email</i>
+                                                    <label for="email" class="col-form-label">Email<span class="obrigatorio">*</span></label>
+                                                    <input style="color: #9fa8da" id="email" type="email" class="form-control"
+                                                           th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" required="required"/>
+                                                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                                         class="invalid-feedback"></div>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">account_box</i>
+                                                    <label for="username">Username<span class="obrigatorio">*</span></label>
+                                                    <input style="color: #9fa8da" id="username" class="form-control" type="text" th:field="*{username}" required="required"/>
+                                                    <span id="userErro" class="invalid-feedback" role="alert"></span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">confirmation_number</i>
+                                                    <label for="password">Senha<span class="obrigatorio">*</span></label>
+                                                    <input style="color: #9fa8da" id="password" class="form-control" type="password" th:field="*{password}" required="required"/>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <i class="material-icons prefix">confirmation_number</i>
+                                                    <label for="confirm">Confirme sua senha<span class="obrigatorio">*</span></label>
+                                                    <input style="color: #9fa8da" class="form-control" type="password" id="confirm" name="confirm" value="" required="required"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <a th:href="@{/login}" class="btn btn-secondary" style="float: left;">Voltar</a>
+                                                <button id="btn-subimit" style="float: right" type="submit" class="btn btn-primary">Cadastrar</button>
+                                                <div style="clear: both"></div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    /* <![CDATA[ */
+    $(document).ready(function () {
+        $('#cpf').mask('000.000.000-00');
+        $('#nascimento').mask('00/00/0000', {placeholder: "__/__/____"});
+        $('#telefone').mask('(00) 0000-00000').keyup(function () {
+            var size = $(this).val().length;
+            if(size > 14)
+                $(this).mask('(00) 00000-0000')
+        });
+    });
+
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        max: new Date(),
+        selectYears: 100,
+        format: 'dd/mm/yyyy',
+        today: 'Hoje',
+        clear: 'Limpar',
+        close: 'Ok',
+        monthsFull: [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
+        monthsShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mar', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+        weekdaysFull: [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado' ],
+        weekdaysShort: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab' ],
+        weekdaysLetter: [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+        labelMonthNext: 'Próximo Mês',
+        labelMonthPrev: 'Mês anterior',
+        labelMonthSelect: 'Selecione o Mês',
+        labelYearSelect: 'Selecione o ano',
+        closeOnSelect: false // Close upon selecting a date,
+    });
+
+
+
+    $('#cpf').focusout(function () {
+        var cpf = validaCPF();
+        if(cpf) {
+            $(this).removeClass('is-invalid');
+            $('#btn-subimit').attr('disabled', false);
+        } else {
+            $(this).addClass('is-invalid');
+            $('#CPFerror').text("CPF Inválido");
+            $('#btn-subimit').attr('disabled',true);
+        }
+    });
+    $('#username').focusout(function () {
+        $.ajax({
+            type: "POST",
+            data: {
+                username: $(this).val()
+            },
+            cache: false,
+            url: "/register/username",
+            success: function (data) {
+                if(data) {
+                    $('#username').removeClass('is-invalid');
+                    $('#btn-submit').attr('disabled', false);
+                } else {
+                    $('#btn-submit').attr('disabled', true);
+                    $('#username').addClass('is-invalid');
+                    $('#userErro').text("Usuário já está em uso");
+                }
+            }
+        });
+    });
+    /* ]]> */
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+.home-block {
+    margin-top: 2pt;
+    margin-bottom: 5pt ;
+}
+header {
+    margin-bottom: 5pt;
+}
+
+.navbar-custom {
+    background-color: #bd2130;
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255,.8);
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255,255,255,.5);
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+}
+
+.navbar-custom-lista{
+    background-color: #856404;
+}
+
+.secretaria-menu img {
+    margin-bottom: 5pt;
+}
+
+.obrigatorio {
+    color: red;
+}
+
+.login, .registro {
+    margin-top: 80pt;
+    margin-bottom: 20pt;
+}
+
+.btn-registro {
+    margin-top: 10pt;
+}
+
+.form-check {
+    position: relative;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-check-inline {
+    display: inline-block;
+}
+
+.form-check.disabled .form-check-label {
+    color: #868e96;
+}
+
+.form-check-input {
+    position: absolute;
+    margin-top: 0.25rem;
+    margin-left: -1.25rem;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+[data-toggle="buttons"] > .btn input[type="radio"],
+[data-toggle="buttons"] > .btn input[type="checkbox"],
+[data-toggle="buttons"] > .btn-group > .btn input[type="radio"],
+[data-toggle="buttons"] > .btn-group > .btn input[type="checkbox"] {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.custom-radio .custom-control-indicator {
+    border-radius: 50%;
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-indicator {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.input-group-addon input[type="radio"],
+.input-group-addon input[type="checkbox"] {
+    margin-top: 0;
+}
+
+.pad{
+    padding-left: 50px;
+}
