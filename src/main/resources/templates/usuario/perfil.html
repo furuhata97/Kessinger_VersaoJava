@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Kessinger - Home</title>
+    <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+</head>
+<body>
+
+<div id="app">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+
+                <!-- Collapsed Hamburger -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!-- Branding Image -->
+            </div>
+
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="nav navbar-nav">
+                    &nbsp;
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                    <li><a href="/perfil">Perfil</a></li>
+                    <li><a href="/publicacoes">Publicações</a></li>
+                    <li><a href="/periodicos">Periódicos</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <img style="width:32px;height:32px;" th:src="@{/img/nouser.jpg}"/>
+                            <span sec:authentication="name"></span> <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">
+                                    Registrar uma publicação
+                                </a>
+
+                                <a href="#">
+                                    Registrar um periódico
+                                </a>
+                                <div hidden="hidden">
+                                    <form id="logout" action="#" th:action="@{/logout}" method="post">
+                                        <div class="form-action">
+                                            <button type="submit">Sair</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <a href="javascript:document.getElementById('logout').submit()" class="nav-link"> Sair</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+<div class="container">
+    <div class="row">
+
+            <div class="col-md-12 toppad" >
+                <div class="panel panel-info">
+                    <div style="background-color:white;" class="panel-heading">
+                        <h3 class="panel-title" th:text="${usuario.nome}"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" th:src="@{/img/nouser.jpg}" class="img-circle img-responsive"/> </div>
+                            <div class=" col-md-9 col-lg-9 ">
+                                <span><h3>Sobre mim</h3></span>
+                                <div class="row">
+                                    <div class="row">
+                                        <form>
+                                            <div class="input-field col s12">
+                                                <textarea readonly="readonly" id="textarea1" class="materialize-textarea">Algum texto</textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <span><h3>Informações pessoais</h3></span>
+                                <table class="table highlight table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>Data de nascimento:</td>
+                                        <td th:text="${#dates.format(usuario.nascimento, 'dd/MM/yyyy')}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Endereço:</td>
+                                        <td th:text="${usuario.endereco}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Número:</td>
+                                        <td th:text="${usuario.numero}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CEP:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Titulação:</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Área(s) de estudo(s):</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CPF:</td>
+                                        <td th:text="${usuario.cpf}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nacionalidade:</td>
+                                        <td th:text="${usuario.pais.pais}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="#" type="button" class="btn btn-sm blue">Alterar dados</a>
+                        <a href="#" type="button" class="btn btn-sm red">Inativar conta</a>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+</body>
+</html>
