@@ -35,13 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/redirectTipoUsuario", true)
                 .permitAll();
         http
                 .logout().logoutUrl("/logout").permitAll();
         http
                 .authorizeRequests()
-                .antMatchers("/register", "/js/**", "/css/**", "/img/**")
+                .antMatchers("/register/username", "/js/**", "/css/**", "/img/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

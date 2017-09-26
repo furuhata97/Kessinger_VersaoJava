@@ -58,6 +58,9 @@ public class Usuario {
     @Column(name = "usuario_telefone")
     private String telefone;
 
+    @Column(name = "foto_perfil")
+    private String foto;
+
     public Integer getId() {
         return id;
     }
@@ -168,6 +171,14 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     @Override

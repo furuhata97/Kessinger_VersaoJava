@@ -96,3 +96,24 @@ input[type="checkbox"] {
 .pad{
     padding-left: 50px;
 }
+
+.r-pad{
+    padding-right: 50px;
+}
+
+#particles {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#particles, #start {
+    height: 100vh;
+    width: 100vw;
+    display: table;
+    table-layout: fixed;
+}
+
+.big-pad{
+    padding-left: 200px;
+}
