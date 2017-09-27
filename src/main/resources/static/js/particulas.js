@@ -1,1 +1,1 @@
-particlesJS.load('particles', '/config/package.json', function() {});
+particlesJS.load('particles', '/kessinger/config/package.json', function() {});

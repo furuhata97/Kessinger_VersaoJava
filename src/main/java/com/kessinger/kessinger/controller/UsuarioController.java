@@ -43,42 +43,13 @@ public class UsuarioController {
 
     @GetMapping
     public String usuario(Model model, HttpServletRequest req) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
-        Usuario usuario = new Usuario();
-        if(usuariOpt.isPresent()) {
-            usuario = usuariOpt.get();
-        }
-
-        if(usuario.getFoto() != null)
-            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
-
-        String path = req.getRequestURL().toString();
-        path = path.replace(req.getRequestURI(), "");
-
-        model.addAttribute("caminho", path);
+        addPicture(model, req);
         return "usuario/index";
     }
 
     @GetMapping("/perfil")
     public String listar(Model model, HttpServletRequest req) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
-        Usuario usuario = new Usuario();
-        if(usuariOpt.isPresent()) {
-            usuario = usuariOpt.get();
-        }
-        model.addAttribute("usuario", usuario);
-
-        if(usuario.getFoto() != null)
-            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
-
-        String path = req.getRequestURL().toString();
-        path = path.replace(req.getRequestURI(), "");
-
-        model.addAttribute("caminho", path);
+        addPicture(model, req);
         return "usuario/perfil";
     }
 
@@ -96,7 +67,7 @@ public class UsuarioController {
         ra.addFlashAttribute("sucesso", "Paciente " + usuario.getNome() + " atualizado com sucesso!");
         return "redirect:/user/perfil";
     }
-/*
+
     private void addPicture(Model model, HttpServletRequest req) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
@@ -107,13 +78,13 @@ public class UsuarioController {
         }
         model.addAttribute("usuario", usuario);
 
-        model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+        if(usuario.getFoto() != null)
+            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
 
         String path = req.getRequestURL().toString();
-        path = path.replace(req.getRequestURI(), "");
+        path = path.replace(req.getRequestURI(), "") + "/kessinger";
 
         model.addAttribute("caminho", path);
     }
-    */
 
 }
