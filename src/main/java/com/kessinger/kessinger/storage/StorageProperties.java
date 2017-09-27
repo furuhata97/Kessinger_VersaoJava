@@ -11,12 +11,11 @@ public class StorageProperties {
         return location;
     }
 
-    public StorageProperties(){
-
-    }
-
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public StorageProperties() {
     }
 }
 

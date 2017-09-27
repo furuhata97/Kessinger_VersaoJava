@@ -11,85 +11,85 @@
 <div id="particles"></div>
 <div class="container">
     <div class="row">
-            <div class="col-md-12 toppad" >
-                <div class="panel panel-info">
-                    <div style="background-color:white;" class="panel-heading">
-                        <h3 class="panel-title" th:text="${usuario.nome}"></h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-3 col-lg-3 " align="center">
-                                <form th:action="@{/user/perfil}" method="POST" enctype="multipart/form-data">
-                                    <img style="width:300px;height:300px;" alt="User Pic" th:src="@{${files} == null ?  '/img/nouser.jpg' : ${caminho} + '/files/' + ${files}}" class="img-thumbnail"/>
-                                    <div class="file-field input-field">
-                                        <div class="btn pad">
-                                            <span>Selecionar Imagem</span>
-                                            <input type="file" accept="*" name="file"/>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <br/>
-                                    <input class="btn text-center" type="submit" name="enviar" value="Upload"/>
-                                </form>
-                            </div>
-                            <div class=" col-md-9 col-lg-9 ">
-                                <span><h3>Sobre mim</h3></span>
-                                <div class="row">
-                                    <div class="row">
-                                        <form>
-                                            <div class="input-field col s12">
-                                                <textarea readonly="readonly" id="textarea1" class="materialize-textarea">Algum texto</textarea>
-                                            </div>
-                                        </form>
+        <div class="col-md-12 toppad" >
+            <div class="panel panel-info">
+                <div style="background-color:white;" class="panel-heading">
+                    <h3 class="panel-title" th:text="${usuario.nome}"></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center">
+                            <form th:action="@{/user/perfil}" method="POST" enctype="multipart/form-data">
+                                <img style="width:300px;height:300px;" alt="User Pic" th:src="@{${files} == null ?  '/img/nouser.jpg' : ${caminho} + '/files/' + ${files}}" class="img-thumbnail"/>
+                                <div class="file-field input-field">
+                                    <div class="btn pad">
+                                        <span>Selecionar Imagem</span>
+                                        <input type="file" accept="*" name="file"/>
                                     </div>
                                 </div>
-                                <span><h3>Informações pessoais</h3></span>
-                                <table class="table highlight table-user-information">
-                                    <tbody>
-                                    <tr>
-                                        <td>Data de nascimento:</td>
-                                        <td th:text="${#dates.format(usuario.nascimento, 'dd/MM/yyyy')}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Endereço:</td>
-                                        <td th:text="${usuario.endereco}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Número:</td>
-                                        <td th:text="${usuario.numero}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>CEP:</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Titulação:</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Área(s) de estudo(s):</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>CPF:</td>
-                                        <td th:text="${usuario.cpf}"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nacionalidade:</td>
-                                        <td th:text="${usuario.pais.pais}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <input class="btn text-center" type="submit" name="enviar" value="Upload"/>
+                            </form>
+                        </div>
+                        <div class=" col-md-9 col-lg-9 ">
+                            <span><h3>Sobre mim</h3></span>
+                            <div class="row">
+                                <div class="row">
+                                    <form>
+                                        <div class="input-field col s12">
+                                            <textarea readonly="readonly" id="textarea1" class="materialize-textarea">Algum texto</textarea>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
+                            <span><h3>Informações pessoais</h3></span>
+                            <table class="table highlight table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>Data de nascimento:</td>
+                                    <td th:text="${#dates.format(usuario.nascimento, 'dd/MM/yyyy')}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Endereço:</td>
+                                    <td th:text="${usuario.endereco}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Número:</td>
+                                    <td th:text="${usuario.numero}"></td>
+                                </tr>
+                                <tr>
+                                    <td>CEP:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Titulação:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Área(s) de estudo(s):</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>CPF:</td>
+                                    <td th:text="${usuario.cpf}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Nacionalidade:</td>
+                                    <td th:text="${usuario.pais.pais}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <a th:href="@{'/user/' + ${usuario.id} }" type="button" class="btn btn-sm blue">Alterar dados</a>
-                        <a href="#" type="button" class="btn btn-sm red">Inativar conta</a>
-                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a th:href="@{'/user/' + ${usuario.id} }" type="button" class="btn btn-sm blue">Alterar dados</a>
+                    <a href="#" type="button" class="btn btn-sm red">Inativar conta</a>
                 </div>
             </div>
+        </div>
 
     </div>
 </div>

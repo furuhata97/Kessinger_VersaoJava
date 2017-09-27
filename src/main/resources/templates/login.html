@@ -7,21 +7,15 @@
 <body>
 
 
-
-
 <div class="container">
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10 align-middle login">
-            <div th:if="${sucesso}">
-                    <span id="sucesso" type="hidden" th:text="${sucesso}" th:value="${sucesso}"></span>
-            </div>
             <div class="card">
                 <div class="card-header text-center bg-info blue-grey darken-4">
                     <h5 class="card-title white-text">Login</h5>
                     <img class="animated tada" th:src="@{/img/prototipo2.png}" height="108" width="550"/>
                 </div>
-
 
 
                 <div class="row">
@@ -35,10 +29,12 @@
                             <div class="card-action">
                                 <form th:action="@{/login}" method="post">
                                     <div class="form-group">
-                                        <input style="color: #9fa8da" type="text" class="form-control" id="username" name="username" value="" required="" placeholder="Username"/>
+                                        <input style="color: #9fa8da" type="text" class="form-control" id="username"
+                                               name="username" value="" required="" placeholder="Username"/>
                                     </div>
                                     <div class="form-group">
-                                        <input style="color: #9fa8da" type="password" class="form-control" id="password" name="password" value="" required="" placeholder="Password"/>
+                                        <input style="color: #9fa8da" type="password" class="form-control" id="password"
+                                               name="password" value="" required="" placeholder="Password"/>
                                     </div>
                                     <div class="form-group text-right">
                                         <button type="submit" class="btn btn-primary">Login</button>
@@ -59,7 +55,7 @@
 
 
 <script th:if="${param.error}">
-            swal("Ops!", "Usuário e/ou senha incorretos", "error");
+    swal("Ops!", "Usuário e/ou senha incorretos", "error");
 </script>
 
 <script th:if="${param.logout}">
