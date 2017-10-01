@@ -6,6 +6,11 @@
 </head>
 <body>
 
+<div th:if="${sucesso}">
+    <div>
+        <script>swal("Legal!!", "Usuário cadastrado com sucesso", "success");</script>
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -62,10 +67,6 @@
     swal("Tudo certo!!", "Deslogado com sucesso", "info");
 </script>
 
-<script th:if="${sucesso}">
-    var mensagem = document.getElementById('sucesso').value;
-    swal("Legal!!", mensagem, "success");
-</script>
 
 
 </body>

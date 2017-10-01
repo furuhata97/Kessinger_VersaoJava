@@ -2,16 +2,13 @@ package com.kessinger.kessinger.controller;
 
 
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import com.kessinger.kessinger.model.Publicacao;
 import com.kessinger.kessinger.model.Usuario;
+import com.kessinger.kessinger.repository.PublicacaoRepository;
 import com.kessinger.kessinger.repository.UsuarioRepository;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kessinger.kessinger.storage.StorageFileNotFoundException;
@@ -40,11 +37,13 @@ public class FileUploadController {
 
     private final StorageService storageService;
     private final UsuarioRepository usuarioRepository;
+    private final PublicacaoRepository publicacaoRepository;
 
     @Autowired
-    public FileUploadController(StorageService storageService, UsuarioRepository usuarioRepository) {
+    public FileUploadController(StorageService storageService, UsuarioRepository usuarioRepository, PublicacaoRepository publicacaoRepository) {
         this.storageService = storageService;
         this.usuarioRepository = usuarioRepository;
+        this.publicacaoRepository = publicacaoRepository;
     }
 
 
@@ -75,6 +74,18 @@ public class FileUploadController {
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
         return "redirect:/user/perfil";
+    }
+
+    @PostMapping("/publicacao/novo")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes, HttpServletResponse resp, Publicacao publicacao) throws IOException {
+
+        storageService.store(file);
+        publicacao.setUpload(file.getOriginalFilename());
+        publicacaoRepository.save(publicacao);
+        redirectAttributes.addFlashAttribute("message2",
+                true);
+        return "redirect:/user";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

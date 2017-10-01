@@ -65,7 +65,7 @@ public class RegistroController {
         }
         usuario.setPassword(pe().encode(usuario.getPassword()));
         ur.save(usuario);
-        ra.addFlashAttribute("sucesso", "Usuario " + usuario.getUsername() + " cadastrado com sucesso!");
+        ra.addFlashAttribute("sucesso", true);
         return "redirect:/login";
     }
 }

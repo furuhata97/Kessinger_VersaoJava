@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Kessinger - Home</title>
+    <title>Kessinger - Perfil</title>
     <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
 </head>
 <body style="background-color: #0D47A1">
@@ -39,7 +39,7 @@
                                 <div class="row">
                                     <form>
                                         <div class="input-field col s12">
-                                            <textarea readonly="readonly" id="textarea1" class="materialize-textarea">Algum texto</textarea>
+                                            <textarea style="color: #37474f" readonly="readonly" id="textarea1" class="materialize-textarea" th:text="${usuario.bio}"></textarea>
                                         </div>
                                     </form>
                                 </div>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <head>
+        <title>Kessinger - Cadastro de publicação</title>
+        <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+    </head>
+</head>
+<body class="green darken-3">
+<!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
+
+<div id="particles"></div>
+
+<div class="container">
+<div class="row">
+    <div class="col-md-12 toppad">
+        <div class="card green lighten-2">
+            <div class="card-content white-text">
+                <span class="card-title">Cadastro de publicação</span>
+                <div class="row">
+                    <form class="col s12" th:object="${publicacao}" method="POST" enctype="multipart/form-data" th:action="@{/publicacao/novo}">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input style="color: white" id="titulo" type="text" th:field="*{nome}"/>
+                                <label style="color: white" for="titulo">Título</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input style="color: white" id="autor" type="text" th:field="*{autor}"/>
+                                <label style="color: white" for="autor">Autor(es)</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col s2">
+                                <label style="color: white" for="ano">Data de publicação<span class="obrigatorio">*</span></label>
+                                <input style="background-color: transparent; color: white" id="ano" type="text" class="form-control validated datepicker" th:field="*{ano}"
+                                       required="required" th:classappend="${#fields.hasErrors('ano')} ? 'is-invalid'"/>
+                                <div th:if="${#fields.hasErrors('ano')}" th:errors="*{ano}"
+                                     class="invalid-feedback"></div>
+                            </div>
+                            <div class="form-group col s4">
+                                <label style="color: white" class="col-form-label">Área<span class="obrigatorio">*</span></label>
+                                <select class="form-control" th:field="*{area}">
+                                    <option th:each="areas : ${T(com.kessinger.kessinger.model.enums.Area).values()}"
+                                            th:value="${area}"
+                                            th:text="${areas.area}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group col s2">
+                                <label style="color: white" class="col-form-label">Categoria<span class="obrigatorio">*</span></label>
+                                <select class="form-control" th:field="*{categoria}">
+                                    <option th:each="categoria : ${T(com.kessinger.kessinger.model.enums.Categoria).values()}"
+                                            th:value="${categoria}"
+                                            th:text="${categoria.categoria}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group col s4">
+                                <label style="color: white" for="periodico" class="col-form-label">Periódico</label>
+                                <input style="color: white" id="periodico" type="text"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="file-field input-field">
+                                <div class="btn green accent-3">
+                                    <span>Selecione o arquivo da publicação</span>
+                                    <input type="file" name="file"/>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <a th:href="@{/user}" class="waves-effect waves-light btn red darken-4">Cancelar</a>
+                            <button class="btn waves-effect waves-light lime darken-4" type="submit" name="action">Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script th:src="@{/js/particles.js}"></script>
+<script>particlesJS.load('particles', '/kessinger/config/particle2.json', function() {});</script>
+
+<script>
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        max: new Date(),
+        selectYears: 100,
+        format: 'dd/mm/yyyy',
+        today: 'Hoje',
+        clear: 'Limpar',
+        close: 'Ok',
+        monthsFull: [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
+        monthsShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mar', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+        weekdaysFull: [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado' ],
+        weekdaysShort: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab' ],
+        weekdaysLetter: [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+        labelMonthNext: 'Próximo Mês',
+        labelMonthPrev: 'Mês anterior',
+        labelMonthSelect: 'Selecione o Mês',
+        labelYearSelect: 'Selecione o ano',
+        closeOnSelect: false // Close upon selecting a date,
+    });
+</script>
+
+</body>
+</html>

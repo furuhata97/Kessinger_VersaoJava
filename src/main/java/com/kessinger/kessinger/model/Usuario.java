@@ -61,6 +61,9 @@ public class Usuario {
     @Column(name = "foto_perfil")
     private String foto;
 
+    @Column(name = "usuario_bio")
+    private String bio;
+
     public Integer getId() {
         return id;
     }
@@ -179,6 +182,14 @@ public class Usuario {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     @Override

@@ -117,3 +117,7 @@ input[type="checkbox"] {
 .big-pad{
     padding-left: 200px;
 }
+
+.aumenta-div{
+    min-height: 1400px;
+}

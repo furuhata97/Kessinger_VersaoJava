@@ -9,6 +9,11 @@
 <!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
 
 <div class="container">
+    <div th:if="${message2}">
+        <div>
+        <script>swal("Tudo certo!!", "Publicação cadastrada com sucesso", "success");</script>
+        </div>
+    </div>
     <div class="row">
         <form action="/publicacoes" method="GET">
             <div class="col-md-12 text-center">
