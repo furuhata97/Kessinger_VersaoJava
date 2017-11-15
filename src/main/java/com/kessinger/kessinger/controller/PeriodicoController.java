@@ -7,6 +7,8 @@ import com.kessinger.kessinger.repository.PeriodicoRepository;
 import com.kessinger.kessinger.repository.PublicacaoRepository;
 import com.kessinger.kessinger.repository.UsuarioRepository;
 import com.kessinger.kessinger.storage.StorageService;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -53,7 +55,6 @@ public class PeriodicoController {
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
         model.addAttribute("caminho", path);
         System.out.println(listaPeriodico.get(0).getPublicacoes().isEmpty());
-
         Usuario usuario = obtemUsuarioAtual(model, req);
         return "periodico/index";
     }
@@ -68,6 +69,8 @@ public class PeriodicoController {
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
         model.addAttribute("caminho", path);
 
+        model.addAttribute("podeExcluir", true);
+
         return "periodico/index";
     }
 
@@ -78,6 +81,27 @@ public class PeriodicoController {
         model.addAttribute("publicacoes", publicacoes);
         Usuario usuario = obtemUsuarioAtual(model, req);
         return "publicacao/index";
+    }
+
+    @PostMapping("/delete/{id}")
+    @Cascade(CascadeType.DELETE)
+    public String deletaPeriodico(Model model, HttpServletRequest req, @PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        Periodico periodico = periodicoRepository.findOne(id);
+        System.out.println(id);
+        if (periodico.getPublicacoes().isEmpty()) {
+            Usuario usuario = obtemUsuarioAtual(model, req);
+            usuario.getPeriodico().remove(periodico);
+            usuarioRepository.save(usuario);
+            periodico.setUsuario(null);
+            periodicoRepository.delete(id);
+            redirectAttributes.addFlashAttribute("removido",
+                    true);
+            return "redirect:/periodico/meus";
+        }
+        else {
+            redirectAttributes.addFlashAttribute("impossivel", true);
+            return "redirect:/periodico/meus";
+        }
     }
 
     @GetMapping("/novo")

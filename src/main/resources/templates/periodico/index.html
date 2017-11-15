@@ -6,35 +6,99 @@
         <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
     </head>
 </head>
-<body style="background-color: #9d1010">
+<body class="purple lighten-4">
 <!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
+
+<div th:if="${impossivel}">
+    <script>
+        swal(
+            'Oops...',
+            'O periódico possui publicações associadas à ele. Impossível remover!',
+            'error'
+        )
+    </script>
+</div>
+<div th:if="${removido}">
+    <script>
+        swal(
+            'Certo...',
+            'Periódico removido com sucesso!',
+            'success'
+        )
+    </script>
+</div>
 
 <div th:if="${#lists.isEmpty(periodicos)}">
     <h3 style="color: white; font-weight: bold;text-align:center">Nenhuma publicação cadastrada</h3>
 </div>
 <div class="col-md-3" th:each="periodico : ${periodicos}">
-    <div class="card">
+    <div class="card" th:with="someVariable=${periodico.id}">
         <div class="card-image waves-effect waves-block waves-light">
             <img width="150" height="400" class="activator materialboxed" th:src="@{${caminho} + '/files/' + ${periodico.upload} }"/>
         </div>
-        <div class="card-content" style="height:200px;">
+        <div class="card-content" style="height:150px;">
             <p style="font-weight: bold;text-align:center" th:text="${periodico.titulo}"></p>
             <p style="text-align:center;" th:text="${periodico.descricao}"></p>
             <p class="text-center">
                 <small>Cadastrado por </small><small th:text="${periodico.usuario.nome}"></small>
             </p>
         </div>
-        <div class="card-action text-center	">
-            <a th:href="@{'/periodico/publicacao/' + ${periodico.id}}" style="color:#1e88e5;text-decoration: none;">Visualizar publicações</a>
+        <div class="card-action text-center	 blue darken-3">
+            <a th:href="@{'/periodico/publicacao/' + ${periodico.id}}" style="color:white;text-decoration: none;">Visualizar publicações</a>
         </div>
+        <div class="card-action text-center	amber darken-3">
+            <a th:href="@{'/periodico/publicacao/' + ${periodico.id}}" style="color:white;text-decoration: none;">Editar periódico</a>
+        </div>
+        <form th:object="${periodico}" method="POST" th:action="@{'/periodico/delete/' + ${someVariable}}" th:id="'myForm' + ${periodico.id}" th:if="${podeExcluir}">
+            <div class="card-action text-center	red accent-4">
+                <button style="color:white;text-decoration: none; background-color: transparent; border-color: transparent" th:id="'botao' + ${periodico.id}" type="submit" name="action">EXCLUIR</button>
+                <script type="text/javascript" th:inline="javascript">
+                    /*<![CDATA[*/
+                    $(document).ready(function () {
+                        document.getElementById('botao'+[[${periodico.id}]]).addEventListener('click', function(e){
+                            console.log(document.getElementById('botao'+[[${periodico.id}]]));
+                            e.preventDefault();
+                            swal({
+                                title: 'Tem certeza que deseja remover o periódico?',
+                                text: "Esta ação não poderá ser desfeita!",
+                                type: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Sim, remover!',
+                                cancelButtonText: 'Não, cancelar!',
+                                confirmButtonClass: 'btn btn-success',
+                                cancelButtonClass: 'btn btn-danger',
+                                buttonsStyling: false
+                            }).then(function () {
+                                document.getElementById('myForm'+[[${periodico.id}]]).submit();
+                            }, function (dismiss) {
+                                // dismiss can be 'cancel', 'overlay',
+                                // 'close', and 'timer'
+                                if (dismiss === 'cancel') {
+                                    swal(
+                                        'Cancelado',
+                                        'O periódico não foi removido',
+                                        'error'
+                                    )
+                                }
+                            })
+                        })
+                    })
+                    /*]]>*/
+                </script>
+            </div>
+        </form>
     </div>
 </div>
+
+<!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js}"></script>
+
 <script>
     $(document).ready(function(){
         $('.materialboxed').materialbox();
     });
 </script>
-
-
 </body>
 </html>
