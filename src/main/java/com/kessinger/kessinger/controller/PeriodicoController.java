@@ -14,10 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,33 +54,13 @@ public class PeriodicoController {
         model.addAttribute("caminho", path);
         System.out.println(listaPeriodico.get(0).getPublicacoes().isEmpty());
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
-        Usuario usuario = new Usuario();
-        if(usuariOpt.isPresent()) {
-            usuario = usuariOpt.get();
-        }
-        model.addAttribute("usuario", usuario);
-
-        if(usuario.getFoto() != null)
-            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+        Usuario usuario = obtemUsuarioAtual(model, req);
         return "periodico/index";
     }
 
     @GetMapping("/meus")
     public String listaMeusPeriodicos(Model model, HttpServletRequest req) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
-        Usuario usuario = new Usuario();
-        if(usuariOpt.isPresent()) {
-            usuario = usuariOpt.get();
-        }
-        model.addAttribute("usuario", usuario);
-
-        if(usuario.getFoto() != null)
-            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+        Usuario usuario = obtemUsuarioAtual(model, req);
 
         List<Periodico> listaPeriodico =  periodicoRepository.findByUser(usuario);
         model.addAttribute("periodicos", listaPeriodico);
@@ -94,6 +71,15 @@ public class PeriodicoController {
         return "periodico/index";
     }
 
+    @GetMapping("/publicacao/{id}")
+    public String listaPublicacoesDosPeriodicos(Model model, HttpServletRequest req, @PathVariable Integer id) {
+        Periodico periodico = periodicoRepository.findOne(id);
+        List<Publicacao> publicacoes = periodico.getPublicacoes();
+        model.addAttribute("publicacoes", publicacoes);
+        Usuario usuario = obtemUsuarioAtual(model, req);
+        return "publicacao/index";
+    }
+
     @GetMapping("/novo")
     public String novoPeriodico(Model model, HttpServletRequest req) {
         addFile(model, req);
@@ -102,6 +88,17 @@ public class PeriodicoController {
 
 
     private void addFile(Model model, HttpServletRequest req) {
+        Usuario usuario = obtemUsuarioAtual(model, req);
+        model.addAttribute("usuarioID", usuario.getId());
+        Periodico periodico = new Periodico();
+        model.addAttribute("periodico", periodico);
+
+        if(usuario.getFoto() != null)
+            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+
+    }
+
+    private Usuario obtemUsuarioAtual(Model model, HttpServletRequest req){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
@@ -110,9 +107,6 @@ public class PeriodicoController {
             usuario = usuariOpt.get();
         }
         model.addAttribute("usuario", usuario);
-        model.addAttribute("usuarioID", usuario.getId());
-        Periodico periodico = new Periodico();
-        model.addAttribute("periodico", periodico);
 
         if(usuario.getFoto() != null)
             model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
@@ -121,5 +115,7 @@ public class PeriodicoController {
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
 
         model.addAttribute("caminho", path);
+
+        return usuario;
     }
 }
