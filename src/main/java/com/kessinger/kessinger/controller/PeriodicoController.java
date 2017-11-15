@@ -71,6 +71,29 @@ public class PeriodicoController {
         return "periodico/index";
     }
 
+    @GetMapping("/meus")
+    public String listaMeusPeriodicos(Model model, HttpServletRequest req) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
+        Usuario usuario = new Usuario();
+        if(usuariOpt.isPresent()) {
+            usuario = usuariOpt.get();
+        }
+        model.addAttribute("usuario", usuario);
+
+        if(usuario.getFoto() != null)
+            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+
+        List<Periodico> listaPeriodico =  periodicoRepository.findByUser(usuario);
+        model.addAttribute("periodicos", listaPeriodico);
+        String path = req.getRequestURL().toString();
+        path = path.replace(req.getRequestURI(), "") + "/kessinger";
+        model.addAttribute("caminho", path);
+
+        return "periodico/index";
+    }
+
     @GetMapping("/novo")
     public String novoPeriodico(Model model, HttpServletRequest req) {
         addFile(model, req);

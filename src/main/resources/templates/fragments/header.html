@@ -1,7 +1,9 @@
+
 <div id="app">
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top grey lighten-4">
         <div class="container">
             <div class="navbar-header">
+
                 <!-- Collapsed Hamburger -->
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                     <span class="sr-only">Toggle Navigation</span>
@@ -9,41 +11,80 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+
                 <!-- Branding Image -->
+                <a class="navbar-brand" th:href="@{/}">
+                    <span><img class="img-responsive" style="width:197px;height:45px;" th:src="@{/img/prototipo4.png}"/></span>
+                </a>
             </div>
+
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     &nbsp;
                 </ul>
+
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    <li><a th:href="@{/user/perfil}">Perfil</a></li>
-                    <li><a th:href="@{/publicacoes}">Publicações</a></li>
-                    <li><a th:href="@{/periodico}">Periódicos</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            Periódicos <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a th:href="@{/periodico}">
+                                    Visualizar todos
+                                </a>
+                                <a th:href="@{/periodico/meus}">
+                                    Visualizar meus
+                                </a>
+                                <a th:href="@{/periodico/novo}">
+                                    Submeter um periódico
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            Publicações <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a th:href="@{/publicacoes}">
+                                    Visualizar todas
+                                </a>
+                                <a href="#">
+                                    Visualizar meus
+                                </a>
+                                <a th:href="@{/publicacoes/novo}">
+                                    Realizar publicação
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <img style="width:32px;height:32px;" th:src="@{${files} == null ?  '/img/nouser.jpg' : ${caminho} + '/files/' + ${files} }"/>
                             <span sec:authentication="name"></span> <span class="caret"></span>
                         </a>
+
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a th:href="@{/publicacoes/novo}">
-                                    Registrar uma publicação
+                                <a th:href="@{/user/perfil}">Meu perfil</a>
+                                <a href="#"
+                                   onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                    Logout
                                 </a>
-                                <a th:href="@{/periodico/novo}">
-                                    Registrar um periódico
-                                </a>
-                                <div hidden="hidden">
-                                    <form id="logout" action="#" th:action="@{/logout}" method="post">
-                                        <div class="form-action">
-                                            <button type="submit">Sair</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <a href="javascript:document.getElementById('logout').submit()" class="nav-link"> Sair</a>
+
+                                <form id="logout-form" th:action="@{/logout}" method="POST" style="display: none;">
+                                    <div class="form-action">
+                                        <button type="submit">Sair</button>
+                                    </div>
+                                </form>
                             </li>
+
                         </ul>
                     </li>
                 </ul>

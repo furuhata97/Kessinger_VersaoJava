@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <head>
+        <title>Kessinger - Cadastro de publicação</title>
+        <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+    </head>
+</head>
+<body style="background-color: #9d1010">
+<!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
+
+
+<div class="col-md-3" th:each="periodico : ${periodicos}">
+    <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+            <img width="150" height="400" class="activator materialboxed" th:src="@{${caminho} + '/files/' + ${periodico.upload} }"/>
+        </div>
+        <div class="card-content" style="height:200px;">
+            <p style="font-weight: bold;text-align:center" th:text="${periodico.titulo}"></p>
+            <p style="text-align:center;" th:text="${periodico.descricao}"></p>
+            <p class="text-center">
+                <small>Cadastrado por </small><small th:text="${periodico.usuario.nome}"></small>
+            </p>
+        </div>
+        <div class="card-action text-center	">
+            <a href="#" style="color:#1e88e5;text-decoration: none;">Visualizar publicações</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.materialboxed').materialbox();
+    });
+</script>
+
+
+</body>
+</html>
