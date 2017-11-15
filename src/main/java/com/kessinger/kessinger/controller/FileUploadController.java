@@ -80,14 +80,18 @@ public class FileUploadController {
 
     @PostMapping("/publicacao/novo")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes, HttpServletResponse resp, Publicacao publicacao) throws IOException {
+                                   RedirectAttributes redirectAttributes, HttpServletResponse resp, Publicacao publicacao, Integer usuarioID) throws IOException {
 
         storageService.store(file);
         publicacao.setUpload(file.getOriginalFilename());
+        Usuario usuario = usuarioRepository.findOne(usuarioID);
+        publicacao.setUser(usuario);
         publicacaoRepository.save(publicacao);
         Periodico periodico = periodicoRepository.findOne(publicacao.getPeriodico().getId());
         periodico.addPublicacao(publicacao);
         periodicoRepository.save(periodico);
+        usuario.addPublicacao(publicacao);
+        usuarioRepository.save(usuario);
         redirectAttributes.addFlashAttribute("message2",
                 true);
         return "redirect:/user";

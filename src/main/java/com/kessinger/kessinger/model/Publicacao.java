@@ -39,6 +39,10 @@ public class Publicacao {
     @JoinColumn(name = "publicacao_periodico")
     private Periodico periodico;
 
+    @OneToOne
+    @JoinColumn(name = "publicacao_usuario")
+    private Usuario user;
+
     public Integer getId() {
         return id;
     }
@@ -101,6 +105,14 @@ public class Publicacao {
 
     public void setUpload(String upload) {
         this.upload = upload;
+    }
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
     }
 
     @Override

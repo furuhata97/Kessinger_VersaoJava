@@ -50,6 +50,7 @@
                 <span class="card-title">Cadastro de publicação</span>
                 <div class="row">
                     <form class="col s12" th:object="${publicacao}" method="POST" enctype="multipart/form-data" th:action="@{/publicacao/novo}">
+                        <input type="hidden" id="usuarioID" name="usuarioID" th:value="${usuarioID}"/>
                         <div class="row">
                             <div class="input-field col s6">
                                 <input style="color: white" id="titulo" type="text" th:field="*{nome}"/>

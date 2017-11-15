@@ -69,6 +69,9 @@ public class Usuario {
     @OneToMany
     private List<Periodico> periodicos;
 
+    @OneToMany
+    private List<Publicacao> publicacoes;
+
     public Integer getId() {
         return id;
     }
@@ -205,6 +208,14 @@ public class Usuario {
         this.bio = bio;
     }
 
+    public List<Publicacao> getPublicacoes() {
+        return publicacoes;
+    }
+
+    public void setPublicacoes(List<Publicacao> publicacoes) {
+        this.publicacoes = publicacoes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -224,6 +235,12 @@ public class Usuario {
         if(this.periodicos==null)
             this.periodicos = new ArrayList<>();
         this.periodicos.add(periodico);
+    }
+
+    public void addPublicacao(Publicacao publicacao) {
+        if(this.publicacoes==null)
+            this.publicacoes = new ArrayList<>();
+        this.publicacoes.add(publicacao);
     }
 }
 
