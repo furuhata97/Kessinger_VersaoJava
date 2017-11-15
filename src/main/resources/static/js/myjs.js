@@ -40,3 +40,9 @@ Button.prototype.toggle = function toggle() {
         $(this._element).toggleClass(ClassName.ACTIVE);
     }
 };
+
+
+
+
+
+

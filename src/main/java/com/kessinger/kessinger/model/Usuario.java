@@ -5,7 +5,9 @@ import com.kessinger.kessinger.model.enums.Sexo;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -63,6 +65,9 @@ public class Usuario {
 
     @Column(name = "usuario_bio")
     private String bio;
+
+    @OneToMany
+    private List<Periodico> periodicos;
 
     public Integer getId() {
         return id;
@@ -188,6 +193,14 @@ public class Usuario {
         return bio;
     }
 
+    public List<Periodico> getPeriodico() {
+        return periodicos;
+    }
+
+    public void setPeriodico(List<Periodico> periodico) {
+        this.periodicos = periodico;
+    }
+
     public void setBio(String bio) {
         this.bio = bio;
     }
@@ -206,4 +219,11 @@ public class Usuario {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    public void addPeriodico(Periodico periodico) {
+        if(this.periodicos==null)
+            this.periodicos = new ArrayList<>();
+        this.periodicos.add(periodico);
+    }
 }
+

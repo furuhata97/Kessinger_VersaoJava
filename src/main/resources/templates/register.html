@@ -19,7 +19,7 @@
             </div>
             <div class="card">
                 <div class="card-header text-center bg-info blue-grey darken-4">
-                    <h5 class="card-title white-text" th:text="${update} == true ? 'Atualizr Perfil' : 'Novo Usuário'"></h5>
+                    <h5 class="card-title white-text" th:text="${update} == true ? 'Atualizar Perfil' : 'Novo Usuário'"></h5>
                     <img class="animated bounceInLeft" th:src="@{/img/prototipo2.png}" height="108" width="550"/>
                 </div>
 
@@ -39,7 +39,7 @@
                                         <div class="row">
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">account_circle</i>
-                                                <input style="color: #9fa8da" id="nome" class="form-control validated" type="text" th:field="*{nome}" required="required"/>
+                                                <input style="color: white" id="nome" class="form-control validated" type="text" th:field="*{nome}" required="required"/>
                                                 <label for="nome">Nome<span class="obrigatorio">*</span></label>
                                             </div>
                                             <div class="input-field col s6" th:if="${update}">
@@ -51,7 +51,7 @@
 
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">account_circle</i>
-                                                <input style="color: #9fa8da" id="sobrenome" class="form-control validated" type="text" th:field="*{sobrenome}" required="required"/>
+                                                <input style="color: white" id="sobrenome" class="form-control validated" type="text" th:field="*{sobrenome}" required="required"/>
                                                 <label for="sobrenome">Sobrenome<span class="obrigatorio">*</span></label>
                                             </div>
                                             <div class="input-field col s6" th:if="${update}">
@@ -63,7 +63,7 @@
                                         <div class="row">
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">swap_calls</i>
-                                                <input style="color: #9fa8da" id="endereco" class="form-control" type="text" th:field="*{endereco}"/>
+                                                <input style="color: white" id="endereco" class="form-control" type="text" th:field="*{endereco}"/>
                                                 <label for="endereco">Endereço</label>
                                             </div>
                                             <div class="input-field col s6" th:if="${update}">
@@ -74,7 +74,7 @@
 
                                             <div class="input-field col s4" th:if="not ${update}">
                                                 <i class="material-icons prefix">filter_1</i>
-                                                <input style="color: #9fa8da" id="numero" class="form-control" type="text" th:field="*{numero}"/>
+                                                <input style="color: white" id="numero" class="form-control" type="text" th:field="*{numero}"/>
                                                 <label for="numero">Número</label>
                                             </div>
                                             <div class="input-field col s4" th:if="${update}">
@@ -84,13 +84,13 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-12 col-lg-4 pad">
-                                                <label class="col-form-label">Sexo<span class="obrigatorio">*</span></label>
-                                                <select class="form-control" th:field="*{sexo}">
+                                            <div style="color: white" class="input-field col-12 col-lg-4 pad">
+                                                <select th:field="*{sexo}">
                                                     <option th:each="sexo : ${T(com.kessinger.kessinger.model.enums.Sexo).values()}"
                                                             th:value="${sexo}"
                                                             th:text="${sexo.sexo}"></option>
                                                 </select>
+                                                <label class="col-form-label">Sexo<span class="obrigatorio">*</span></label>
                                             </div>
 
                                             <div class="form-group col-12 col-lg-4">
@@ -99,7 +99,7 @@
 
                                             <div class="form-group col-12 col-lg-3" th:if="not ${update}">
                                                 <label for="nascimento">Data de nascimento<span class="obrigatorio">*</span></label>
-                                                <input style="color: #9fa8da" id="nascimento" type="text" class="form-control datepicker" th:field="*{nascimento}"
+                                                <input style="color: white" id="nascimento" type="text" class="form-control datepicker" th:field="*{nascimento}"
                                                        required="required" th:classappend="${#fields.hasErrors('nascimento')} ? 'is-invalid'"/>
                                                 <div th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}"
                                                      class="invalid-feedback"></div>
@@ -118,7 +118,7 @@
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">featured_play_list</i>
                                                 <label for="cpf" class="col-form-label">CPF<span class="obrigatorio">*</span></label>
-                                                <input style="color: #9fa8da" id="cpf" class="form-control validate" type="text"
+                                                <input style="color: white" id="cpf" class="form-control validate" type="text"
                                                        th:field="*{cpf}" required="required" th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid'"/>
                                                 <div th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}" class="invalid-feedback"></div>
                                                 <span id="CPFerror" class="invalid-feedback" role="alert"></span>
@@ -131,20 +131,20 @@
                                                 <input class="form-control" type="hidden" th:field="*{cpf}" required="required"/>
                                             </div>
 
-                                            <div class="form-group col-12 col-lg-4">
-                                                <label class="col-form-label">País<span class="obrigatorio">*</span></label>
-                                                <select class="form-control" th:field="*{pais}">
+                                            <div style="color: white" class="input-field col-12 col-lg-4">
+                                                <select th:field="*{pais}">
                                                     <option th:each="sigla : ${T(com.kessinger.kessinger.model.enums.Paises).values()}"
                                                             th:value="${sigla}"
                                                             th:text="${sigla.pais}"></option>
                                                 </select>
+                                                <label class="col-form-label">País<span class="obrigatorio">*</span></label>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">pin_drop</i>
                                                 <label for="cidade" class="col-form-label">Cidade</label>
-                                                <input style="color: #9fa8da" id="cidade" type="text" class="form-control"
+                                                <input style="color: white" id="cidade" type="text" class="form-control"
                                                        th:field="*{cidade}" th:classappend="${#fields.hasErrors('cidade')} ? 'is-invalid'"/>
                                                 <div th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"
                                                      class="invalid-feedback"></div>
@@ -161,7 +161,7 @@
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">phone</i>
                                                 <label for="telefone" class="col-form-label">Telefone</label>
-                                                <input style="color: #9fa8da" id="telefone" type="text" class="form-control"
+                                                <input style="color: white" id="telefone" type="text" class="form-control"
                                                        th:field="*{telefone}" th:classappend="${#fields.hasErrors('telefone')} ? 'is-invalid'"/>
                                                 <div th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"
                                                      class="invalid-feedback"></div>
@@ -179,7 +179,7 @@
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">email</i>
                                                 <label for="email" class="col-form-label">Email<span class="obrigatorio">*</span></label>
-                                                <input style="color: #9fa8da" id="email" type="email" class="form-control"
+                                                <input style="color: white" id="email" type="email" class="form-control"
                                                        th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" required="required"/>
                                                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
                                                      class="invalid-feedback"></div>
@@ -193,7 +193,7 @@
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">account_box</i>
                                                 <label for="username">Username<span class="obrigatorio">*</span></label>
-                                                <input style="color: #9fa8da" id="username" class="form-control" type="text" th:field="*{username}" required="required"/>
+                                                <input style="color: white" id="username" class="form-control" type="text" th:field="*{username}" required="required"/>
                                                 <span id="userErro" class="invalid-feedback" role="alert"></span>
                                             </div>
                                             <div class="input-field col s6" th:if="${update}">
@@ -208,12 +208,12 @@
                                                 <div class="input-field col s6">
                                                     <i class="material-icons prefix">confirmation_number</i>
                                                     <label for="password">Senha<span class="obrigatorio">*</span></label>
-                                                    <input style="color: #9fa8da" id="password" class="form-control" type="password" th:field="*{password}" required="required"/>
+                                                    <input style="color: white" id="password" class="form-control" type="password" th:field="*{password}" required="required"/>
                                                 </div>
                                                 <div class="input-field col s6">
                                                     <i class="material-icons prefix">confirmation_number</i>
                                                     <label for="confirm">Confirme sua senha<span class="obrigatorio">*</span></label>
-                                                    <input style="color: #9fa8da" class="form-control" type="password" id="confirm" name="confirm" value="" required="required"/>
+                                                    <input style="color: white" class="form-control" type="password" id="confirm" name="confirm" value="" required="required"/>
                                                 </div>
                                             </div>
 
@@ -263,6 +263,12 @@
 
 <script th:src="@{/js/particles.js}"></script>
 <script th:src="@{/js/particulas.js}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
 
 <script>
     /* <![CDATA[ */

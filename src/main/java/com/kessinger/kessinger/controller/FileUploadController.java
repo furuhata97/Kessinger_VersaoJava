@@ -5,8 +5,10 @@ package com.kessinger.kessinger.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import com.kessinger.kessinger.model.Periodico;
 import com.kessinger.kessinger.model.Publicacao;
 import com.kessinger.kessinger.model.Usuario;
+import com.kessinger.kessinger.repository.PeriodicoRepository;
 import com.kessinger.kessinger.repository.PublicacaoRepository;
 import com.kessinger.kessinger.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kessinger.kessinger.storage.StorageFileNotFoundException;
@@ -38,12 +38,14 @@ public class FileUploadController {
     private final StorageService storageService;
     private final UsuarioRepository usuarioRepository;
     private final PublicacaoRepository publicacaoRepository;
+    private final PeriodicoRepository periodicoRepository;
 
     @Autowired
-    public FileUploadController(StorageService storageService, UsuarioRepository usuarioRepository, PublicacaoRepository publicacaoRepository) {
+    public FileUploadController(StorageService storageService, UsuarioRepository usuarioRepository, PublicacaoRepository publicacaoRepository, PeriodicoRepository periodicoRepository) {
         this.storageService = storageService;
         this.usuarioRepository = usuarioRepository;
         this.publicacaoRepository = publicacaoRepository;
+        this.periodicoRepository = periodicoRepository;
     }
 
 
@@ -83,6 +85,25 @@ public class FileUploadController {
         storageService.store(file);
         publicacao.setUpload(file.getOriginalFilename());
         publicacaoRepository.save(publicacao);
+        Periodico periodico = periodicoRepository.findOne(publicacao.getPeriodico().getId());
+        periodico.addPublicacao(publicacao);
+        periodicoRepository.save(periodico);
+        redirectAttributes.addFlashAttribute("message2",
+                true);
+        return "redirect:/user";
+    }
+
+    @PostMapping("/periodico/novo")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes, HttpServletResponse resp, Periodico periodico, Integer usuarioID) throws IOException {
+
+        storageService.store(file);
+        periodico.setUpload(file.getOriginalFilename());
+        Usuario usuario = usuarioRepository.findOne(usuarioID);
+        periodico.setUsuario(usuario);
+        periodicoRepository.save(periodico);
+        usuario.addPeriodico(periodico);
+        usuarioRepository.save(usuario);
         redirectAttributes.addFlashAttribute("message2",
                 true);
         return "redirect:/user";

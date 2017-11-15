@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <head>
+        <title>Kessinger - Cadastro de publicação</title>
+        <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+    </head>
+</head>
+<body style="background-color: #9d1010">
+<!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" th:each="publicacao : ${publicacoes}">
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light"></div>
+                <div class="card-content">
+                    <p style="font-weight: bold;text-align:center" th:text="${publicacao.nome}"></p>
+                    <small style="text-align:center" th:text="${publicacao.autor}"></small><br/>
+                    <small style="text-align:center" th:text="${publicacao.area.area}"></small><br/>
+                    <small style="text-align:center" th:text="${publicacao.categoria.categoria}"></small><br/>
+                    <small style="text-align:center" th:text="${#dates.format(publicacao.ano, 'dd/MM/yyyy')}"></small><br/>
+
+                    <!--<p class="truncate" style="text-align:justify;" th:text="${publicacao.descricao}"></p> !-->
+                </div>
+                <div class="card-action">
+                    <a href="#">Visualizar</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

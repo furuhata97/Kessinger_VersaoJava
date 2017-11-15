@@ -32,11 +32,12 @@ public class Publicacao {
     @Column(name = "publicacao_categoria")
     private Categoria categoria;
 
-    /*@Column(name = "publicacao_periodico")
-    private Periodico periodico;*/
-
     @Column(name = "publicacao_upload")
     private String upload;
+
+    @OneToOne
+    @JoinColumn(name = "publicacao_periodico")
+    private Periodico periodico;
 
     public Integer getId() {
         return id;
@@ -86,13 +87,13 @@ public class Publicacao {
         this.categoria = categoria;
     }
 
-    /*public Periodico getPeriodico() {
+    public Periodico getPeriodico() {
         return periodico;
     }
 
     public void setPeriodico(Periodico periodico) {
         this.periodico = periodico;
-    }*/
+    }
 
     public String getUpload() {
         return upload;

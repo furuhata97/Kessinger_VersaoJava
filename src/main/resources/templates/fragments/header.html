@@ -20,8 +20,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     <li><a th:href="@{/user/perfil}">Perfil</a></li>
-                    <li><a th:href="@{/user/publicacoes}">Publicações</a></li>
-                    <li><a th:href="@{/user/periodicos}">Periódicos</a></li>
+                    <li><a th:href="@{/publicacoes}">Publicações</a></li>
+                    <li><a th:href="@{/periodico}">Periódicos</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <img style="width:32px;height:32px;" th:src="@{${files} == null ?  '/img/nouser.jpg' : ${caminho} + '/files/' + ${files} }"/>
@@ -29,10 +29,10 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a th:href="@{/publicacao/novo}">
+                                <a th:href="@{/publicacoes/novo}">
                                     Registrar uma publicação
                                 </a>
-                                <a href="#">
+                                <a th:href="@{/periodico/novo}">
                                     Registrar um periódico
                                 </a>
                                 <div hidden="hidden">
