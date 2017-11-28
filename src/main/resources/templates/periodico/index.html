@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <head>
-        <title>Kessinger - Cadastro de publicação</title>
+        <title>Kessinger - Cadastro de periodico</title>
         <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
     </head>
 </head>
@@ -47,7 +47,7 @@
             <a th:href="@{'/periodico/publicacao/' + ${periodico.id}}" style="color:white;text-decoration: none;">Visualizar publicações</a>
         </div>
         <div class="card-action text-center	amber darken-3">
-            <a th:href="@{'/periodico/publicacao/' + ${periodico.id}}" style="color:white;text-decoration: none;">Editar periódico</a>
+            <a th:href="@{'/periodico/' + ${periodico.id}}" style="color:white;text-decoration: none;">Editar periódico</a>
         </div>
         <form th:object="${periodico}" method="POST" th:action="@{'/periodico/delete/' + ${someVariable}}" th:id="'myForm' + ${periodico.id}" th:if="${podeExcluir}">
             <div class="card-action text-center	red accent-4">

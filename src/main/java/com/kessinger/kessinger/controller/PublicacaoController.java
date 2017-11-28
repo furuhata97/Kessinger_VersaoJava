@@ -8,6 +8,8 @@ import com.kessinger.kessinger.repository.PeriodicoRepository;
 import com.kessinger.kessinger.repository.PublicacaoRepository;
 import com.kessinger.kessinger.repository.UsuarioRepository;
 import com.kessinger.kessinger.storage.StorageService;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -15,10 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,17 +74,7 @@ public class PublicacaoController {
 
     @GetMapping("/meus")
     public String listaMinhasPublicacoes(Model model, HttpServletRequest req) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
-        Usuario usuario = new Usuario();
-        if(usuariOpt.isPresent()) {
-            usuario = usuariOpt.get();
-        }
-        model.addAttribute("usuario", usuario);
-
-        if(usuario.getFoto() != null)
-            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+        Usuario usuario = obtemUsuarioAtual(model, req);
 
         List<Publicacao> listaPublicacao =  publicacaoRepository.findByUser(usuario);
         model.addAttribute("publicacoes", listaPublicacao);
@@ -93,7 +82,30 @@ public class PublicacaoController {
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
         model.addAttribute("caminho", path);
 
+        model.addAttribute("podeExcluir", true);
+
         return "publicacao/index";
+    }
+
+
+    @PostMapping("/delete/{id}")
+    @Cascade(CascadeType.DELETE)
+    public String deletaPublicacao(Model model, HttpServletRequest req, @PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        Publicacao publicacao = publicacaoRepository.findOne(id);
+        System.out.println(id);
+            Usuario usuario = obtemUsuarioAtual(model, req);
+            usuario.getPublicacoes().remove(publicacao);
+            usuarioRepository.save(usuario);
+            Periodico periodico = periodicoRepository.findOne(publicacao.getPeriodico().getId());
+            periodico.getPublicacoes().remove(publicacao);
+            periodicoRepository.save(periodico);
+            publicacao.setUser(null);
+            publicacao.setPeriodico(null);
+            publicacaoRepository.delete(id);
+            redirectAttributes.addFlashAttribute("removido",
+                    true);
+            return "redirect:/publicacoes/meus";
+
     }
 
 
@@ -107,6 +119,17 @@ public class PublicacaoController {
 
 
     private void addFile(Model model, HttpServletRequest req) {
+        Usuario usuario = obtemUsuarioAtual(model, req);
+        model.addAttribute("usuarioID", usuario.getId());
+
+        Publicacao publicacao = new Publicacao();
+        model.addAttribute("publicacao", publicacao);
+
+        if(usuario.getFoto() != null)
+            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+    }
+
+    private Usuario obtemUsuarioAtual(Model model, HttpServletRequest req){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
@@ -115,9 +138,6 @@ public class PublicacaoController {
             usuario = usuariOpt.get();
         }
         model.addAttribute("usuario", usuario);
-        model.addAttribute("usuarioID", usuario.getId());
-        Publicacao publicacao = new Publicacao();
-        model.addAttribute("publicacao", publicacao);
 
         if(usuario.getFoto() != null)
             model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
@@ -126,6 +146,8 @@ public class PublicacaoController {
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
 
         model.addAttribute("caminho", path);
+
+        return usuario;
     }
 
 }

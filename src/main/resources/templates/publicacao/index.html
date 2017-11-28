@@ -9,6 +9,16 @@
 <body style="background-color: #9d1010">
 <!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
 
+<div th:if="${removido}">
+    <script>
+        swal(
+            'Certo...',
+            'Publicação removida com sucesso!',
+            'success'
+        )
+    </script>
+</div>
+
 <div class="container">
     <div class="row">
         <div th:if="${#lists.isEmpty(publicacoes)}">
@@ -19,17 +29,63 @@
                 <div class="card-image waves-effect waves-block waves-light"></div>
                 <div class="card-content">
                     <p style="font-weight: bold;text-align:center" th:text="${publicacao.nome}"></p>
-                    <small style="text-align:center" th:text="${publicacao.autor}"></small><br/>
-                    <small style="text-align:center" th:text="${publicacao.area.area}"></small><br/>
-                    <small style="text-align:center" th:text="${publicacao.categoria.categoria}"></small><br/>
-                    <small style="text-align:center" th:text="${#dates.format(publicacao.ano, 'dd/MM/yyyy')}"></small><br/>
+                    <small>Autor: </small><small style="text-align:center" th:text="${publicacao.autor}"></small><br/>
+                    <small>Área: </small><small style="text-align:center" th:text="${publicacao.area.area}"></small><br/>
+                    <small>Categoria: </small><small style="text-align:center" th:text="${publicacao.categoria.categoria}"></small><br/>
+                    <small>Data de publicação: </small><small style="text-align:center" th:text="${#dates.format(publicacao.ano, 'dd/MM/yyyy')}"></small><br/>
+                    <p class="text-center">
+                        <small>Cadastrado por </small><small th:text="${publicacao.user.nome}"></small>
+                    </p>
 
                     <!--<p class="truncate" style="text-align:justify;" th:text="${publicacao.descricao}"></p> !-->
                 </div>
-                <div class="card-action">
-                    <a href="#">Visualizar</a>
-
+                <div class="card-action text-center	 blue darken-3">
+                    <a th:href="@{${caminho} + '/files/' + ${publicacao.upload} }" style="color:white;text-decoration: none;">Visualizar</a>
                 </div>
+                <div class="card-action text-center	amber darken-3">
+                    <a th:href="@{'/periodico/' + ${id}}" style="color:white;text-decoration: none;">Editar periódico</a>
+                </div>
+
+                <form th:object="${publicacao}" method="POST" th:action="@{'/publicacoes/delete/' + ${publicacao.id}}" th:id="'myForm' + ${publicacao.id}" th:if="${podeExcluir}">
+                    <div class="card-action text-center	red accent-4">
+                        <button style="color:white;text-decoration: none; background-color: transparent; border-color: transparent" th:id="'botao' + ${publicacao.id}" type="submit" name="action">EXCLUIR</button>
+                        <script type="text/javascript" th:inline="javascript">
+                            /*<![CDATA[*/
+                            $(document).ready(function () {
+                                document.getElementById('botao'+[[${publicacao.id}]]).addEventListener('click', function(e){
+                                    console.log(document.getElementById('botao'+[[${publicacao.id}]]));
+                                    e.preventDefault();
+                                    swal({
+                                        title: 'Tem certeza que deseja remover a publicação?',
+                                        text: "Esta ação não poderá ser desfeita!",
+                                        type: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Sim, remover!',
+                                        cancelButtonText: 'Não, cancelar!',
+                                        confirmButtonClass: 'btn btn-success',
+                                        cancelButtonClass: 'btn btn-danger',
+                                        buttonsStyling: false
+                                    }).then(function () {
+                                        document.getElementById('myForm'+[[${publicacao.id}]]).submit();
+                                    }, function (dismiss) {
+                                        // dismiss can be 'cancel', 'overlay',
+                                        // 'close', and 'timer'
+                                        if (dismiss === 'cancel') {
+                                            swal(
+                                                'Cancelado',
+                                                'A publicação não foi removida',
+                                                'error'
+                                            )
+                                        }
+                                    })
+                                })
+                            })
+                            /*]]>*/
+                        </script>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

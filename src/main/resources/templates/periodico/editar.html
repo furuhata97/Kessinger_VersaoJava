@@ -2,19 +2,57 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <head>
-        <title>Kessinger - Cadastro de periódico</title>
+        <title>Kessinger - Cadastro de periodico</title>
         <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
     </head>
 </head>
-<body class="green darken-3">
+<body style="background-color: #2D882D">
 <!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
+
+
+
+
+
 
 <div class="center-align">
     <canvas class="fireworks"></canvas>
 
     <!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
     <svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width = "50%" height="auto" viewBox="0 0 1296 250" style="enable-background:new 0 0 1296 384;" xml:space="preserve">
-
+<defs>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-1">
+            <stop stop-color="#329FFF" offset="0%"></stop>
+            <stop stop-color="#206EFF" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-2">
+            <stop stop-color="#FF7894" offset="0%"></stop>
+            <stop stop-color="#d50000" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="100%" id="radialGradient-3">
+            <stop stop-color="#FF7894" offset="0%"></stop>
+            <stop stop-color="#ff6d00" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="100%" id="radialGradient-4">
+            <stop stop-color="#359FFC" offset="0%"></stop>
+            <stop stop-color="#ffea00" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-5">
+            <stop stop-color="#5FFFD2" offset="0%"></stop>
+            <stop stop-color="#1b5e20" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-6">
+            <stop stop-color="#ffea00" offset="0%"></stop>
+            <stop stop-color="#6a1b9a" offset="100%"></stop>
+          </radialGradient>
+          <linearGradient x1="0%" y1="0%" x2="100%" y2="0%" id="radialGradient-7">
+            <stop stop-color="#ff6d00" offset="16%"></stop>
+            <stop stop-color="#1b5e20" offset="32%"></stop>
+            <stop stop-color="#206EFF" offset="48%"></stop>
+            <stop stop-color="#d50000" offset="64%"></stop>
+            <stop stop-color="#ffea00" offset="80%"></stop>
+            <stop stop-color="#6a1b9a" offset="100%"></stop>
+          </linearGradient>
+        </defs>
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <rect id="dot-js" fill="#FFFFFF" x="70" y="195" width="32" height="32" rx="16"></rect>
           <g id="lines" transform="translate(85.000000, 60.000000)">
@@ -43,102 +81,81 @@
 
 </div>
 
-<div id="particles"></div>
 
+<div id="particles-js"></div>
 <div class="container">
     <div class="row">
-        <div class="col-md-12 toppad">
-            <div class="card green lighten-2">
-                <div class="card-content white-text">
-                    <span class="card-title">Cadastro de periódico</span>
+        <div class="panel panel-info">
+            <div style="background-color:white;" class="panel-heading">
+                <h3 class="panel-title">Editar periódico</h3>
+            </div>
+            <div class="panel-body">
+                <form id="form-periodico" th:object="${periodico}" method="POST" th:action="@{'/periodico/' + ${periodico.id}}" enctype="multipart/form-data" class="col s12">
                     <div class="row">
-                        <form class="col s12" th:object="${periodico}" method="POST" enctype="multipart/form-data" th:action="@{/periodico/novo}">
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <input style="color: white" id="titulo" type="text" th:field="*{titulo}"/>
-                                    <label style="color: white" for="titulo">Título</label>
-                                </div>
-                                <div class="input-field col s6">
-                                    <input style="color: white" id="issn" type="text" th:field="*{issn}"/>
-                                    <label style="color: white" for="issn">ISSN</label>
-                                </div>
-                            </div>
-                            <div>
-                                <input type="hidden" id="usuarioID" name="usuarioID" th:value="${usuarioID}"/>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s4">
-                                    <select th:field="*{fator}">
-                                        <option th:each="fatores : ${T(com.kessinger.kessinger.model.enums.FatorImpacto).values()}"
-                                                th:value="${fatores}"
-                                                th:text="${fatores.fator}"></option>
-                                    </select>
-                                    <label style="color: white">Fator de Impacto<span class="obrigatorio">*</span></label>
-                                </div>
-                                <div class="input-field col s3">
-                                    <select id="qualis" name="qualis" th:field="*{qualis}">
-                                        <option value="A1">A1</option>
-                                        <option value="A2">A2</option>
-                                        <option value="B1">B1</option>
-                                        <option value="B2">B2</option>
-                                        <option value="B3">B3</option>
-                                        <option value="B4">B4</option>
-                                        <option value="B5">B5</option>
-                                        <option value="C">C</option>
-                                    </select>
-                                    <label for="qualis">Qualis</label>
-                                </div>
-                                <div class="input-field col s4">
-                                    <select th:field="*{area}">
-                                        <option th:each="areas : ${T(com.kessinger.kessinger.model.enums.Area).values()}"
-                                                th:value="${areas}"
-                                                th:text="${areas.area}"></option>
-                                    </select>
-                                    <label style="color: white">Área<span class="obrigatorio">*</span></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <textarea style="color: white" id="textarea1" class="materialize-textarea" th:field="*{descricao}"></textarea>
-                                    <label style="color: white" for="textarea1">Descricao</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="file-field input-field">
-                                    <div class="btn green accent-3">
-                                        <span>Selecione a imagem do periódico</span>
-                                        <input type="file" name="file"/>
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-action">
-                                <a th:href="@{/user}" class="waves-effect waves-light btn red darken-4">Cancelar</a>
-                                <button class="btn waves-effect waves-light lime darken-4" type="submit" name="action">Cadastrar
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>
-                        </form>
+                        <div class="input-field col s6">
+                            <input placeholder="Digite o título do periódico" name="titulo" id="titulo" type="text" class="validate" th:field="*{titulo}" th:value="${periodico.titulo}"/>
+                            <label for="titulo">Título</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="Digite o ISSN" name="issn" id="issn" pattern="[0-9][0-9][0-9][0-9][-][0-9][0-9][0-9][X0-9]" type="text" class="validate" th:field="*{issn}" th:value="${periodico.issn}" />
+                            <label for="issn">ISSN</label>
+                        </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select th:field="*{area}">
+                                <option th:value="${periodico.area.area}" th:text="${periodico.area.area}"></option>
+                                <option th:each="areas : ${T(com.kessinger.kessinger.model.enums.Area).values()}"
+                                        th:value="${areas}"
+                                        th:text="${areas.area}"></option>
+                            </select>
+                            <label style="color: white">Área<span class="obrigatorio">*</span></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <select th:field="*{fator}">
+                                <option th:each="fatores : ${T(com.kessinger.kessinger.model.enums.FatorImpacto).values()}"
+                                        th:value="${fatores}"
+                                        th:text="${fatores.fator}"></option>
+                            </select>
+                            <label style="color: white">Fator de Impacto<span class="obrigatorio">*</span></label>
+                        </div>
+                        <div class="input-field col s3">
+                            <select id="qualis" name="qualis" th:field="*{qualis}">
+                                <option value="A1">A1</option>
+                                <option value="A2">A2</option>
+                                <option value="B1">B1</option>
+                                <option value="B2">B2</option>
+                                <option value="B3">B3</option>
+                                <option value="B4">B4</option>
+                                <option value="B5">B5</option>
+                                <option value="C">C</option>
+                            </select>
+                            <label for="qualis">Qualis</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea id="descricao" name="descricao" class="materialize-textarea" th:value="${periodico.descricao}" th:field="*{descricao}"></textarea>
+                            <label for="descricao">Descrição</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="submit" name="submeter" id="submeter" class="btn green" value="Salvar"/>
+                            <a th:href="@{/periodico/meus}" type="button" class="btn btn-sm red">Cancelar</a>
+                        </div>
+                    </div>
 
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-<script th:src="@{/js/particles.js}"></script>
-<script>particlesJS.load('particles', '/kessinger/config/particle2.json', function() {});</script>
 
+<script th:src="@{/js/particles-js.js}"></script>
+<script>particlesJS.load('particles-js', '/kessinger/config/particle2.json', function() {});</script>
 
-
-<script>
-    $(document).ready(function() {
-        $('select').material_select();
-    });
-</script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -150,8 +167,54 @@
     });
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var lineDrawing = anime({
+            targets: '#lineDrawing .lines path',
+            strokeDashoffset: [anime.setDashoffset, 0],
+            easing: 'easeInOutSine',
+            duration: 1500,
+            delay: function(el, i) { return i * 250 },
+            direction: 'alternate',
+            loop: false
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    var campoIssn = document.querySelector("#issn");
+    var campoTitulo = document.querySelector("#titulo");
+    var campoDescricao = document.querySelector("#descricao");
+
+    var botao = document.querySelector("#submeter");
+    var form = document.querySelector("#form-periodico");
+
+    botao.addEventListener('click', function(event){
+        event.preventDefault();
+        if (campoIssn.value.length != 9 || campoTitulo.value == "" || campoDescricao.value == "") {
+            swal(
+                'Oops...',
+                'Preencha todos os campos adequadamente',
+                'error'
+            )
+        }
+        else{
+            form.submit();
+        }
+    })
+</script>
+
 <script th:src="@{/js/anime.min.js}"></script>
 <script th:src="@{/js/animacao.js}"></script>
+
 
 </body>
 </html>

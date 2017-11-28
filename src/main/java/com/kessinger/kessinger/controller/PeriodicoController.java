@@ -110,6 +110,24 @@ public class PeriodicoController {
         return "periodico/cadastro";
     }
 
+    @GetMapping("{id}")
+    public String editaPeriodico(Model model, HttpServletRequest req, @PathVariable Integer id) {
+        Usuario user = obtemUsuarioAtual(model, req);
+        Periodico periodico = periodicoRepository.findOne(id);
+        model.addAttribute("periodico", periodico);
+        return "periodico/editar";
+    }
+
+    @PostMapping("{id}")
+    public String PersisteEdicaoPeriodico(Model model, HttpServletRequest req, Periodico periodico, @PathVariable Integer id, RedirectAttributes redirectAttributes){
+        Periodico periodicoAux = periodicoRepository.findOne(id);
+        periodico.setUpload(periodicoAux.getUpload());
+        periodico.setUsuario(periodicoAux.getUsuario());
+        periodico.setPublicacoes(periodicoAux.getPublicacoes());
+        periodico.setId(periodicoAux.getId());
+        periodicoRepository.save(periodico);
+        return "redirect:/periodico/meus";
+    }
 
     private void addFile(Model model, HttpServletRequest req) {
         Usuario usuario = obtemUsuarioAtual(model, req);
