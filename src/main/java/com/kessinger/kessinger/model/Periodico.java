@@ -97,8 +97,8 @@ public class Periodico {
         return publicacoes;
     }
 
-    public void setPublicacoes(List<Publicacao> consultas) {
-        this.publicacoes = consultas;
+    public void setPublicacoes(List<Publicacao> publicacoes) {
+        this.publicacoes = publicacoes;
     }
 
     public String getTitulo() {

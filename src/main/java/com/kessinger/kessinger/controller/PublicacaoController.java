@@ -87,6 +87,25 @@ public class PublicacaoController {
         return "publicacao/index";
     }
 
+    @GetMapping("{id}")
+    public String editaPublicacao(Model model, HttpServletRequest req, @PathVariable Integer id) {
+        Usuario user = obtemUsuarioAtual(model, req);
+        Publicacao publicacao = publicacaoRepository.findOne(id);
+        model.addAttribute("publicacao", publicacao);
+        return "publicacao/editar";
+    }
+
+    @PostMapping("{id}")
+    public String PersisteEdicaoPublicacao(Model model, HttpServletRequest req, Publicacao publicacao, @PathVariable Integer id, RedirectAttributes redirectAttributes){
+        Publicacao publicacaoAux = publicacaoRepository.findOne(id);
+        publicacao.setUpload(publicacaoAux.getUpload());
+        publicacao.setUser(publicacaoAux.getUser());
+        publicacao.setPeriodico(publicacaoAux.getPeriodico());
+        publicacao.setId(publicacaoAux.getId());
+        publicacaoRepository.save(publicacao);
+        return "redirect:/publicacoes/meus";
+    }
+
 
     @PostMapping("/delete/{id}")
     @Cascade(CascadeType.DELETE)

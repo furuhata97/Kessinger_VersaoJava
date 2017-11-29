@@ -43,7 +43,7 @@
                     <a th:href="@{${caminho} + '/files/' + ${publicacao.upload} }" style="color:white;text-decoration: none;">Visualizar</a>
                 </div>
                 <div class="card-action text-center	amber darken-3">
-                    <a th:href="@{'/periodico/' + ${id}}" style="color:white;text-decoration: none;">Editar periódico</a>
+                    <a th:href="@{'/publicacoes/' + ${publicacao.id}}" style="color:white;text-decoration: none;">Editar publicacao</a>
                 </div>
 
                 <form th:object="${publicacao}" method="POST" th:action="@{'/publicacoes/delete/' + ${publicacao.id}}" th:id="'myForm' + ${publicacao.id}" th:if="${podeExcluir}">
