@@ -2,7 +2,10 @@ package com.kessinger.kessinger.controller;
 
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Optional;
 
 import com.kessinger.kessinger.model.Periodico;
@@ -70,8 +73,32 @@ public class FileUploadController {
         if(usuariOpt.isPresent()) {
             usuario = usuariOpt.get();
         }
-        usuario.setFoto(file.getOriginalFilename());
-        usuarioRepository.save(usuario);
+        final File folder = new File("webapps/kessinger/images");
+
+            File[] listOfFiles = folder.listFiles();
+            int tamanho = folder.listFiles().length;
+            String nomeArquivo = "perfil" + (tamanho - 1) + ".jpg";
+
+
+            for (File fil : listOfFiles) {
+                if (fil.getName().equals(file.getOriginalFilename())) {
+                    if (usuario.getFoto() != null){
+                        for (File f:listOfFiles){
+                            if (f.getName().equals(usuario.getFoto())){
+                                f.delete();
+                            }
+                        }
+                        fil.renameTo(new File("webapps/kessinger/images/" + usuario.getFoto()));
+                        usuario.setFoto(usuario.getFoto());
+                    }else{
+                        fil.renameTo(new File("webapps/kessinger/images/" + nomeArquivo));
+                        usuario.setFoto(nomeArquivo);
+                    }
+                }
+            }
+
+            usuarioRepository.save(usuario);
+
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 

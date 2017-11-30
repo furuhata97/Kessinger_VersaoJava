@@ -5,7 +5,6 @@
     <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
 </head>
 <body style="background-color: #0D47A1">
-
 <!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
 
 <div id="particles"></div>
@@ -19,21 +18,18 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
-                            <form th:action="@{/user/perfil}" method="POST" enctype="multipart/form-data">
-                                <img style="width:300px;height:300px;" alt="User Pic" th:src="@{${files} == null ?  '/img/nouser.jpg' : ${caminho} + '/files/' + ${files}}" class="img-thumbnail"/>
+                            <form id="formUpload" th:action="@{/user/perfil}" method="POST" enctype="multipart/form-data">
+
                                 <div class="file-field input-field">
-                                    <div class="btn pad">
-                                        <span>Selecionar Imagem</span>
-                                        <input type="file" accept="*" name="file"/>
+                                    <div class="pad">
+                                        <input type="image" style="width:300px;height:300px;" alt="User Pic" th:src="@{${files} == null ?  '/img/nouser.jpg' : ${caminho} + '/files/' + ${files}}" class="img-thumbnail"/>
+                                        <input type="file" accept="image/*" name="file" id="file" onchange="myFunction()"/>
                                     </div>
                                     <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text"/>
+                                        <input class="file-path validate" type="hidden"/>
                                     </div>
                                 </div>
-                                <br/>
-                                <br/>
-                                <br/>
-                                <input class="btn text-center" type="submit" name="enviar" value="Upload"/>
+
                             </form>
                         </div>
                         <div class=" col-md-9 col-lg-9 ">
@@ -99,6 +95,27 @@
 
 <script th:src="@{/js/particles.js}"></script>
 <script th:src="@{/js/particulas.js}"></script>
+
+<script>
+    function myFunction(){
+        var file = document.querySelector("#file");
+        var form = document.querySelector("#formUpload");
+        if(file.value.match(/\.(jpeg|jpg|gif|png)$/) != null)
+            form.submit();
+        else
+            swal(
+                'Oops...',
+                'O arquivo deve ser uma imagem',
+                'error'
+            )
+    }
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('.tooltipped').tooltip({delay: 50});
+    });
+</script>
 
 </body>
 </html>
