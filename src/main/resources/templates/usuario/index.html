@@ -15,13 +15,13 @@
         </div>
     </div>
     <div class="row">
-        <form action="/publicacoes" method="GET">
+        <form th:action="@{/publicacoes/resultado}" th:object="${search}" method="GET">
             <div class="col-md-12 text-center">
                 <div class="text-center bg-info transparent">
                     <img class="animated infinite pulse" th:src="@{/img/prototipo4.png}" height="133" width="580"/>
                 </div>
                 <div class="input-group input-group-lg">
-                    <input name="pesquisar" type="text" class="form-control" placeholder="Digite o que você procura aqui.." aria-describedby="sizing-addon1"/>
+                    <input name="search" id="search" type="text" class="form-control" placeholder="Digite o que você procura aqui.." aria-describedby="sizing-addon1"/>
                     <span class="input-group-btn">
 			      <input class="btn" type="submit" value="Pesquisar"/>
 			      </span>

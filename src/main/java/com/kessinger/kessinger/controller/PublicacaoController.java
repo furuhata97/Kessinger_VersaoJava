@@ -72,6 +72,27 @@ public class PublicacaoController {
         return "publicacao/index";
     }
 
+    @GetMapping("/resultado")
+    public String resultadoPublicacao(@RequestParam(value = "search", required = false) String q, Model model, HttpServletRequest req) {
+        List<Publicacao> listaPublicacao =  publicacaoRepository.findAllByNome(q);
+        model.addAttribute("publicacoes", listaPublicacao);
+        String path = req.getRequestURL().toString();
+        path = path.replace(req.getRequestURI(), "") + "/kessinger";
+        model.addAttribute("caminho", path);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
+        Usuario usuario = new Usuario();
+        if(usuariOpt.isPresent()) {
+            usuario = usuariOpt.get();
+        }
+        model.addAttribute("usuario", usuario);
+        if(usuario.getFoto() != null)
+            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+        return "publicacao/index";
+    }
+
     @GetMapping("/meus")
     public String listaMinhasPublicacoes(Model model, HttpServletRequest req) {
         Usuario usuario = obtemUsuarioAtual(model, req);
