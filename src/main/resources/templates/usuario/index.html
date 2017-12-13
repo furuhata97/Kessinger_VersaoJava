@@ -3,9 +3,11 @@
 <head>
     <title>Kessinger - Home</title>
     <!--/*/ <th:block th:include="fragments/head :: head"></th:block> /*/-->
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <link th:href="@{/css/materialize.min.css}" rel="stylesheet"/>
+    <script th:src="@{/js/materialize.min.js}"></script>
 </head>
 <body>
-
 <!--/*/ <th:block th:include="fragments/header"></th:block> /*/-->
 
 <div class="container">
@@ -30,10 +32,84 @@
         </form>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <a style="margin-left:25%;width:100%;cursor:pointer;" href="#" onclick="javascript:alert('Funcionalidade em construção...');">Não encontrou o que procurava? Clique aqui e faça uma busca mais avançada...</a>
+        <div class="center-align col-md-12">
+            <!-- Modal Trigger -->
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Não encontrou o que procurava? Clique aqui e faça uma busca mais avançada...</a>
+
+            <!-- Modal Structure -->
+            <form class="col s12" method="GET" th:object="${publicacao}" th:action="@{/publicacoes/buscaAvancada}">
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h4>Busca avançada</h4>
+                    <div class="row">
+
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input style="color: black" id="nome" name="nome" type="text" th:field="*{nome}"/>
+                                    <label style="color: black" for="nome">Título</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input style="color: black" id="autor" name="autor" type="text" th:field="*{autor}"/>
+                                    <label style="color: black" for="autor">Autor(es)</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s2">
+                                    <label style="color: black" for="ano">Data de publicação</label>
+                                    <input style="background-color: transparent; color: black" id="ano" type="text" class="form-control validated datepicker" placeholder="__/__/__"
+                                           th:field="*{ano}"/>
+
+                                </div>
+                                <div class="input-field col s7">
+                                    <select th:field="*{area}">
+                                        <option value="">Escolha a área de atuação</option>
+                                        <option th:each="areas : ${T(com.kessinger.kessinger.model.enums.Area).values()}"
+                                                th:value="${areas}"
+                                                th:text="${areas.area}"></option>
+                                    </select>
+                                    <label style="color: black">Área<span class="obrigatorio">*</span></label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <select th:field="*{categoria}">
+                                        <option  value="">Escolha a categoria</option>
+                                        <option th:each="categorias : ${T(com.kessinger.kessinger.model.enums.Categoria).values()}"
+                                                th:value="${categorias}"
+                                                th:text="${categorias.categoria}"></option>
+                                    </select>
+                                    <label style="color: black">Categoria<span class="obrigatorio">*</span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s4">
+                                    <select th:field="*{periodico}">
+                                        <option value="" selected="selected">Escolha o periódico</option>
+                                        <option th:each="periodico : ${periodicos}"
+                                                th:value="${periodico.id}"
+                                                th:text="${periodico.titulo}"></option>
+                                    </select>
+                                    <label style="color: black">Periódico</label>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <div class="card-action">
+                                    <button id="modal2" class="waves-effect waves-light btn red darken-4">Cancelar</button>
+
+                                    <button class="btn waves-effect waves-light lime darken-4" type="submit">Pesquisar
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+            </form>
+
         </div>
     </div>
+
+
     <div class="row">
         <div class="col-md-12">
             <p class="text-center" style="font-size: x-large;">Últimas publicações</p>
@@ -52,8 +128,66 @@
     $(document).ready(function(){
         $('.carousel').carousel();
     });
+
+    $(document).ready(function(){
+        // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+        $('.modal').modal();
+    });
+
+    var botao = document.querySelector('#modal2');
+
+    botao.addEventListener('click', function (event) {
+        event.preventDefault();
+        $('.modal').modal('close');
+    });
+
 </script>
 
 
+<script>
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        max: new Date(),
+        selectYears: 100,
+        format: 'dd/mm/yyyy',
+        today: 'Hoje',
+        clear: 'Limpar',
+        close: 'Ok',
+        monthsFull: [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
+        monthsShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mar', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+        weekdaysFull: [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado' ],
+        weekdaysShort: [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab' ],
+        weekdaysLetter: [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+        labelMonthNext: 'Próximo Mês',
+        labelMonthPrev: 'Mês anterior',
+        labelMonthSelect: 'Selecione o Mês',
+        labelYearSelect: 'Selecione o ano',
+        closeOnSelect: false // Close upon selecting a date,
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
+
+<script>
+    /* <![CDATA[ */
+    function myFunction(cb) {
+
+        var campo = document.querySelector("#selectCategoria");
+        var campo2 = document.querySelector("#campSec");
+        console.log(campo);
+        if (cb.checked == false){
+            $('#selectCategoria').prop("disabled", true);
+        }else{
+            $('#selectCategoria').prop("disabled", false);
+        }
+    }
+    /* ]]> */
+</script>
+
 </body>
+
 </html>

@@ -1,7 +1,10 @@
 package com.kessinger.kessinger.controller;
 
 
+import com.kessinger.kessinger.model.Periodico;
+import com.kessinger.kessinger.model.Publicacao;
 import com.kessinger.kessinger.model.Usuario;
+import com.kessinger.kessinger.repository.PeriodicoRepository;
 import com.kessinger.kessinger.repository.UsuarioRepository;
 import com.kessinger.kessinger.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -26,6 +30,7 @@ import java.util.Optional;
 public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
+    private final PeriodicoRepository periodicoRepository;
     private final StorageService storageService;
 
     @InitBinder
@@ -36,14 +41,19 @@ public class UsuarioController {
     }
 
     @Autowired
-    public UsuarioController(UsuarioRepository usuarioRepository, StorageService storageService) {
+    public UsuarioController(UsuarioRepository usuarioRepository, PeriodicoRepository periodicoRepository, StorageService storageService) {
         this.usuarioRepository = usuarioRepository;
+        this.periodicoRepository = periodicoRepository;
         this.storageService = storageService;
     }
 
     @GetMapping
     public String usuario(Model model, HttpServletRequest req) {
         addPicture(model, req);
+        Publicacao publicacao = new Publicacao();
+        model.addAttribute("publicacao", publicacao);
+        List<Periodico> listaPeriodico =  periodicoRepository.findAll();
+        model.addAttribute("periodicos", listaPeriodico);
         return "usuario/index";
     }
 

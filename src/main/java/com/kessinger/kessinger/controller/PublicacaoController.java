@@ -22,10 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @PreAuthorize("hasAuthority('USUARIO')")
@@ -54,7 +51,9 @@ public class PublicacaoController {
     @GetMapping
     public String listaPublicacao(Model model, HttpServletRequest req) {
         List<Publicacao> listaPublicacao =  publicacaoRepository.findAll();
+        List<Periodico> listaPeriodico =  periodicoRepository.findAll();
         model.addAttribute("publicacoes", listaPublicacao);
+        model.addAttribute("periodicos", listaPeriodico);
         String path = req.getRequestURL().toString();
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
         model.addAttribute("caminho", path);
@@ -93,12 +92,72 @@ public class PublicacaoController {
         return "publicacao/index";
     }
 
+    @GetMapping("/buscaAvancada")
+    public String resultadoAvPublicacao(Publicacao p, Model model, HttpServletRequest req) {
+        System.out.println(p.getNome() + " " + p.getAutor());
+        String AreaString;
+        if (p.getArea() == null){
+            AreaString = "";
+        }else {
+            AreaString = p.getArea().toString();
+        }
+
+        String CategoriaString;
+        if (p.getCategoria() == null){
+            CategoriaString = "";
+        }else {
+            CategoriaString = p.getCategoria().toString();
+        }
+
+
+        System.out.println("Ano = "+p.getAno());
+
+        List<Publicacao> listaPublicacao;
+
+        if (p.getAno() == null && p.getPeriodico() == null){
+            listaPublicacao = publicacaoRepository.findAllUnlessDateAndPeriodico(p.getNome(), p.getAutor(), AreaString, CategoriaString);
+        }else {
+            if(p.getAno() == null){
+                listaPublicacao =  publicacaoRepository.findAllUnlessDate(p.getNome(), p.getAutor(), AreaString, CategoriaString, p.getPeriodico());
+            }else{
+                if (p.getPeriodico() == null){
+                    listaPublicacao =  publicacaoRepository.findAllUnlessPeriodico(p.getNome(), p.getAutor(), AreaString, CategoriaString, p.getAno());
+                }else{
+                    listaPublicacao = publicacaoRepository.findAllByFiltro(p.getNome(), p.getAutor(), AreaString, CategoriaString, p.getAno(), p.getPeriodico());
+                }
+            }
+        }
+
+        System.out.println("Ano = "+p.getAno());
+        System.out.println("Exemplo :: "+listaPublicacao);
+        model.addAttribute("publicacoes", listaPublicacao);
+        List<Periodico> listaPeriodico =  periodicoRepository.findAll();
+        model.addAttribute("periodicos", listaPeriodico);
+        String path = req.getRequestURL().toString();
+        path = path.replace(req.getRequestURI(), "") + "/kessinger";
+        model.addAttribute("caminho", path);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        Optional<Usuario> usuariOpt = usuarioRepository.findByUsername(name);
+        Usuario usuario = new Usuario();
+        if(usuariOpt.isPresent()) {
+            usuario = usuariOpt.get();
+        }
+        model.addAttribute("usuario", usuario);
+        if(usuario.getFoto() != null)
+            model.addAttribute("files", storageService.load(usuario.getFoto()).getFileName());
+        return "publicacao/index";
+    }
+
     @GetMapping("/meus")
     public String listaMinhasPublicacoes(Model model, HttpServletRequest req) {
         Usuario usuario = obtemUsuarioAtual(model, req);
 
         List<Publicacao> listaPublicacao =  publicacaoRepository.findByUser(usuario);
         model.addAttribute("publicacoes", listaPublicacao);
+        List<Periodico> listaPeriodico =  periodicoRepository.findAll();
+        model.addAttribute("periodicos", listaPeriodico);
         String path = req.getRequestURL().toString();
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
         model.addAttribute("caminho", path);
@@ -113,6 +172,8 @@ public class PublicacaoController {
         Usuario user = obtemUsuarioAtual(model, req);
         Publicacao publicacao = publicacaoRepository.findOne(id);
         model.addAttribute("publicacao", publicacao);
+        List<Periodico> listaPeriodico =  periodicoRepository.findAll();
+        model.addAttribute("periodicos", listaPeriodico);
         return "publicacao/editar";
     }
 

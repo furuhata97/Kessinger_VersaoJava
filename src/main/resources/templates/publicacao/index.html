@@ -33,6 +33,7 @@
                     <small>Área: </small><small style="text-align:center" th:text="${publicacao.area.area}"></small><br/>
                     <small>Categoria: </small><small style="text-align:center" th:text="${publicacao.categoria.categoria}"></small><br/>
                     <small>Data de publicação: </small><small style="text-align:center" th:text="${#dates.format(publicacao.ano, 'dd/MM/yyyy')}"></small><br/>
+                    <small>Publicado em: </small><small style="text-align:center" th:text="${publicacao.periodico.titulo}"></small><br/>
                     <p class="text-center">
                         <small>Cadastrado por </small><small th:text="${publicacao.user.nome}"></small>
                     </p>
