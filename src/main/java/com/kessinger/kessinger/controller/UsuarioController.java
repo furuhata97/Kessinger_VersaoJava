@@ -65,7 +65,8 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public String update(Model model, @PathVariable Integer id) {
-        model.addAttribute("usuario", usuarioRepository.findOne(id));
+        Usuario user = usuarioRepository.findOne(id);
+        model.addAttribute("usuario", user);
         model.addAttribute("visualizar", false);
         model.addAttribute("update", true);
         return "register";
@@ -73,6 +74,8 @@ public class UsuarioController {
 
     @PostMapping("/{id}")
     public String updateUsuario(Usuario usuario, RedirectAttributes ra) {
+        if (usuario.getPublico() == null)
+            usuario.setPublico(false);
         usuarioRepository.save(usuario);
         ra.addFlashAttribute("sucesso", "Paciente " + usuario.getNome() + " atualizado com sucesso!");
         return "redirect:/user/perfil";

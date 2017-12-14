@@ -35,7 +35,7 @@
 
 
                                 <div class="row">
-                                    <form th:action="@{${update} == true ? '/user/' + ${usuario.id} : '/register'}" th:object="${usuario}" method="post" class="col s12">
+                                    <form id="user" th:action="@{${update} == true ? '/user/' + ${usuario.id} : '/register'}" th:object="${usuario}" method="post" class="col s12">
                                         <div class="row">
                                             <div class="input-field col s6" th:if="not ${update}">
                                                 <i class="material-icons prefix">account_circle</i>
@@ -221,6 +221,32 @@
                                                 <input class="form-control" type="hidden" th:field="*{password}" required="required"/>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="row" th:if="not ${update}">
+                                                <span>Privacidade do perfil</span>
+                                                <div class="switch">
+                                                    <label>
+                                                        Privado
+                                                        <input type="checkbox" th:value="*{publico}"/>
+                                                        <span class="lever"></span>
+                                                        Público
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row" th:if="${update}">
+                                                <span>Privacidade do perfil</span>
+                                                <div class="switch">
+                                                    <label>
+                                                        Privado
+                                                        <input type="checkbox" id="publico" name="publico" th:if="${usuario.publico}" checked="checked" th:value="*{publico}"/>
+                                                        <input type="checkbox" id="publico" name="publico" th:if="not ${usuario.publico}" th:value="*{publico}"/>
+                                                        <span class="lever"></span>
+                                                        Público
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="row pad r-pad" th:if="${update}">
                                                 <div class="row">
@@ -243,6 +269,17 @@
                                             </div>
 
                                         </div>
+                                        <script>
+                                            $('#user').on('submit', function () {
+                                                var check = $('#publico').is(":checked");
+                                                if(check) {
+                                                    $('#publico').val(check);
+                                                } else {
+                                                    $('#publico').val(false);
+                                                }
+                                                console.log(check);
+                                            })
+                                        </script>
                                     </form>
                                 </div>
 

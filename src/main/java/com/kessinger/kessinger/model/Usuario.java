@@ -66,6 +66,9 @@ public class Usuario {
     @Column(name = "usuario_bio")
     private String bio;
 
+    @Column(name = "privacidade")
+    private Boolean publico;
+
     @OneToMany
     private List<Periodico> periodicos;
 
@@ -241,6 +244,14 @@ public class Usuario {
         if(this.publicacoes==null)
             this.publicacoes = new ArrayList<>();
         this.publicacoes.add(publicacao);
+    }
+
+    public Boolean getPublico() {
+        return publico;
+    }
+
+    public void setPublico(Boolean publico) {
+        this.publico = publico;
     }
 }
 
