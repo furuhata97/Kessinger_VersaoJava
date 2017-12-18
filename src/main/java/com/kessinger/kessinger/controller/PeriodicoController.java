@@ -49,13 +49,15 @@ public class PeriodicoController {
 
     @GetMapping
     public String listaPeriodico(Model model, HttpServletRequest req) {
+        Usuario usuario = obtemUsuarioAtual(model, req);
         List<Periodico> listaPeriodico =  periodicoRepository.findAll();
+        System.out.println(listaPeriodico);
         model.addAttribute("periodicos", listaPeriodico);
         String path = req.getRequestURL().toString();
         path = path.replace(req.getRequestURI(), "") + "/kessinger";
         model.addAttribute("caminho", path);
-        System.out.println(listaPeriodico.get(0).getPublicacoes().isEmpty());
-        Usuario usuario = obtemUsuarioAtual(model, req);
+
+
         return "periodico/index";
     }
 

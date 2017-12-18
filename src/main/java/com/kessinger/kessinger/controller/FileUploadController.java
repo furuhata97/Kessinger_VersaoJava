@@ -76,13 +76,13 @@ public class FileUploadController {
         final File folder = new File("webapps/kessinger/images");
 
             File[] listOfFiles = folder.listFiles();
-            int tamanho = folder.listFiles().length;
-            String nomeArquivo = "perfil" + (tamanho - 1) + ".jpg";
+            String nomeArquivo = "perfil" + (usuario.getId()) + ".jpg";
 
 
             for (File fil : listOfFiles) {
+                System.out.println(fil.getName());
                 if (fil.getName().equals(file.getOriginalFilename())) {
-                    if (usuario.getFoto() != null){
+                    if (!usuario.getFoto().equals("")){
                         for (File f:listOfFiles){
                             if (f.getName().equals(usuario.getFoto())){
                                 f.delete();
@@ -110,7 +110,7 @@ public class FileUploadController {
                                    RedirectAttributes redirectAttributes, HttpServletResponse resp, Publicacao publicacao, Integer usuarioID) throws IOException {
 
         storageService.store(file);
-        publicacao.setUpload(file.getOriginalFilename());
+
         Usuario usuario = usuarioRepository.findOne(usuarioID);
         publicacao.setUser(usuario);
         publicacaoRepository.save(publicacao);
@@ -121,6 +121,30 @@ public class FileUploadController {
         usuarioRepository.save(usuario);
         redirectAttributes.addFlashAttribute("message2",
                 true);
+
+        final File folder = new File("webapps/kessinger/images");
+
+        File[] listOfFiles = folder.listFiles();
+        String nomeArquivo = "publicacao" + (publicacao.getId()) + ".pdf";
+
+
+        for (File fil : listOfFiles) {
+            if (fil.getName().equals(file.getOriginalFilename())) {
+                if (publicacao.getUpload() != null){
+                    for (File f:listOfFiles){
+                        if (f.getName().equals(publicacao.getUpload())){
+                            f.delete();
+                        }
+                    }
+                    fil.renameTo(new File("webapps/kessinger/images/" + publicacao.getUpload()));
+                    publicacao.setUpload(publicacao.getUpload());
+                }else{
+                    fil.renameTo(new File("webapps/kessinger/images/" + nomeArquivo));
+                    publicacao.setUpload(nomeArquivo);
+                }
+            }
+        }
+        publicacaoRepository.save(publicacao);
         return "redirect:/user";
     }
 
@@ -129,7 +153,7 @@ public class FileUploadController {
                                    RedirectAttributes redirectAttributes, HttpServletResponse resp, Periodico periodico, Integer usuarioID) throws IOException {
 
         storageService.store(file);
-        periodico.setUpload(file.getOriginalFilename());
+
         Usuario usuario = usuarioRepository.findOne(usuarioID);
         periodico.setUsuario(usuario);
         periodicoRepository.save(periodico);
@@ -137,8 +161,34 @@ public class FileUploadController {
         usuarioRepository.save(usuario);
         redirectAttributes.addFlashAttribute("message2",
                 true);
+
+        final File folder = new File("webapps/kessinger/images");
+
+        File[] listOfFiles = folder.listFiles();
+        String nomeArquivo = "periodico" + (periodico.getId()) + ".jpg";
+
+
+        for (File fil : listOfFiles) {
+            if (fil.getName().equals(file.getOriginalFilename())) {
+                if (periodico.getUpload() != null){
+                    for (File f:listOfFiles){
+                        if (f.getName().equals(periodico.getUpload())){
+                            f.delete();
+                        }
+                    }
+                    fil.renameTo(new File("webapps/kessinger/images/" + periodico.getUpload()));
+                    periodico.setUpload(periodico.getUpload());
+                }else{
+                    fil.renameTo(new File("webapps/kessinger/images/" + nomeArquivo));
+                    periodico.setUpload(nomeArquivo);
+                }
+            }
+        }
+        periodicoRepository.save(periodico);
         return "redirect:/user";
     }
+
+
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
